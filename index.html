@@ -1,0 +1,2937 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>Stellar Streak</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --red: #E8192C;
+            --red-dark: #b01020;
+            --red-light: #fff0f2;
+            --purple: #812bd1;
+            --gold: #f5c842;
+            --white: #ffffff;
+            --bg: #f5f6fa;
+            --card: #ffffff;
+            --text: #1a0508;
+            --sub: #5a2030;
+            --muted: #9a6070;
+            --border: #f0e6e8;
+            --green: #00b050;
+            --shadow: 0 2px 16px rgba(232, 25, 44, 0.08);
+            --shadow2: 0 8px 32px rgba(232, 25, 44, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Nunito Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            max-width: 430px;
+            margin: 0 auto;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: 0.2
+            }
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1)
+            }
+
+            50% {
+                transform: scale(1.05)
+            }
+        }
+
+        @keyframes countdown-tick {
+            0% {
+                opacity: 0.6;
+                transform: scale(0.97)
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1)
+            }
+
+            100% {
+                opacity: 0.6;
+                transform: scale(0.97)
+            }
+        }
+
+        /* ══ MOBILE MENU ══ */
+        .mob-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 400;
+            background: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .28s ease;
+            backdrop-filter: blur(3px);
+        }
+
+        .mob-overlay.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .mob-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            z-index: 410;
+            width: 80%;
+            max-width: 290px;
+            background: #fff;
+            box-shadow: 6px 0 40px rgba(232, 25, 44, 0.2);
+            transform: translateX(-100%);
+            transition: transform .32s cubic-bezier(.4, 0, .2, 1);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .mob-menu.open {
+            transform: translateX(0);
+        }
+
+        .mob-menu-header {
+            background: linear-gradient(135deg, var(--red-dark) 0%, var(--red) 100%);
+            padding: 52px 20px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .mob-menu-logo {
+            font-family: 'Nunito', sans-serif;
+            font-size: 20px;
+            font-weight: 900;
+            color: #fff;
+        }
+
+        .mob-close-btn {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.22);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            color: #fff;
+            cursor: pointer;
+            transition: background .15s;
+        }
+
+        .mob-close-btn:active {
+            background: rgba(255, 255, 255, 0.38);
+        }
+
+        .mob-nav-links {
+            padding: 10px 0;
+            flex: 1;
+        }
+
+        .mob-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px 22px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text);
+            text-decoration: none;
+            border-left: 3px solid transparent;
+            transition: all .16s;
+            cursor: pointer;
+        }
+
+        .mob-nav-item:hover,
+        .mob-nav-item.active {
+            background: var(--red-light);
+            color: var(--red);
+            border-left-color: var(--red);
+        }
+
+        .mob-nav-icon {
+            font-size: 17px;
+            width: 24px;
+            text-align: center;
+        }
+
+        /* ══ HEADER ══ */
+        .header {
+            background: linear-gradient(135deg, var(--red-dark) 0%, var(--red) 100%);
+            padding: 15px 18px 13px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 12px rgba(184, 17, 31, 0.35);
+        }
+
+        .menu-trigger {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.18);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: background .15s;
+        }
+
+        .menu-trigger:active {
+            background: rgba(255, 255, 255, 0.32);
+        }
+
+        .header-title {
+            font-family: 'Nunito', sans-serif;
+            font-size: 18px;
+            font-weight: 900;
+            color: #fff;
+            text-align: center;
+            letter-spacing: .3px;
+        }
+
+        .header-title small {
+            font-size: 10px;
+            font-weight: 600;
+            opacity: 0.72;
+            display: block;
+            letter-spacing: .5px;
+        }
+
+        .notif-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.18);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background .15s;
+        }
+
+        .notif-btn:active {
+            background: rgba(255, 255, 255, 0.32);
+        }
+
+        .banner-slide {
+            min-width: 100%;
+            height: 100%;
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            padding: 15px 0;
+            flex-shrink: 0;
+        }
+
+        .banner-content {
+            position: relative;
+            z-index: 2;
+            color: #fff;
+        }
+
+        .banner-tag {
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            background: var(--red);
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 5px;
+        }
+
+        .banner-title {
+            font-family: 'Nunito', sans-serif;
+            font-size: 15px;
+            font-weight: 800;
+            line-height: 1.2;
+        }
+
+        .banner-sub {
+            font-size: 10px;
+            opacity: .75;
+            margin-top: 2px;
+        }
+
+        /* ══ FEATURED MATCH BANNER ══ */
+        .featured-banner {
+            background: linear-gradient(160deg, var(--red-dark) 0%, #7a000f 100%);
+            padding: 50px 16px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .featured-banner::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 80% 50%, rgba(255, 255, 255, 0.05) 0%, transparent 60%);
+        }
+
+        .featured-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 20px;
+            padding: 4px 12px;
+            font-size: 10px;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: 1.2px;
+            margin-bottom: 14px;
+        }
+
+        .feat-live-dot {
+            width: 6px;
+            height: 6px;
+            background: #fff;
+            border-radius: 50%;
+            animation: blink 1s infinite;
+        }
+
+        .featured-card {
+            background: #fff;
+            border-radius: 18px;
+            padding: 16px 14px 14px;
+            box-shadow: 0 10px 36px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 2;
+        }
+
+        .feat-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+        }
+
+        .feat-format {
+            font-size: 10px;
+            font-weight: 800;
+            color: var(--red);
+            letter-spacing: .8px;
+            text-transform: uppercase;
+            background: var(--red-light);
+            padding: 3px 9px;
+            border-radius: 20px;
+        }
+
+        .feat-match-no {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--muted);
+            letter-spacing: .5px;
+        }
+
+        .feat-teams {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+
+        .feat-team {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 7px;
+            flex: 1;
+        }
+
+        .feat-logo {
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            border: 3px solid var(--border);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+        }
+
+        .feat-team-abbr {
+            font-family: 'Nunito', sans-serif;
+            font-size: 16px;
+            font-weight: 900;
+            color: var(--text);
+        }
+
+        .feat-team-full {
+            font-size: 9px;
+            color: var(--muted);
+            text-align: center;
+            line-height: 1.3;
+        }
+
+        .feat-score {
+            font-family: 'Nunito', sans-serif;
+            font-size: 20px;
+            font-weight: 900;
+            color: var(--red);
+        }
+
+        .feat-vs {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--purple);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Nunito', sans-serif;
+            font-size: 11px;
+            font-weight: 900;
+            color: var(--gold);
+            flex-shrink: 0;
+            box-shadow: 0 3px 12px rgba(45, 10, 78, 0.4);
+        }
+
+        .feat-countdown {
+            text-align: center;
+            margin-bottom: 12px;
+            animation: countdown-tick 2s ease-in-out infinite;
+        }
+
+        .feat-countdown-label {
+            font-size: 9px;
+            font-weight: 700;
+            color: var(--muted);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .feat-countdown-time {
+            font-family: 'Nunito', sans-serif;
+            font-size: 22px;
+            font-weight: 900;
+            color: var(--text);
+            letter-spacing: 2px;
+        }
+
+        .feat-countdown-subs {
+            font-size: 9px;
+            color: var(--muted);
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            margin-top: 2px;
+        }
+
+        .feat-live-scores {
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        .feat-live-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: var(--red);
+            color: #fff;
+            border-radius: 20px;
+            padding: 4px 12px;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .8px;
+            margin-bottom: 8px;
+            animation: pulse 1.5s infinite;
+        }
+
+        .feat-scores-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--text);
+        }
+
+        .feat-overs {
+            font-size: 10px;
+            color: var(--muted);
+            font-weight: 600;
+            margin-top: 2px;
+        }
+
+        .feat-result {
+            text-align: center;
+            margin-bottom: 10px;
+            padding: 10px 14px;
+            background: linear-gradient(90deg, #fff8e1, #fffde7);
+            border-radius: 12px;
+            border: 1.5px solid #ffd54f;
+            font-size: 12px;
+            font-weight: 800;
+            color: #7a5000;
+        }
+
+        .feat-predict-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, var(--red-dark), var(--red));
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: .3px;
+            cursor: pointer;
+            transition: transform .12s, box-shadow .12s;
+            box-shadow: 0 4px 16px rgba(232, 25, 44, 0.35);
+        }
+
+        .feat-predict-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* ══ FILTER NAV ══ */
+        .filter-nav {
+            background: #fff;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            padding: 0 8px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            position: sticky;
+            z-index: 90;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .filter-nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        .filter-item {
+            flex-shrink: 0;
+            padding: 12px 12px 10px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--muted);
+            cursor: pointer;
+            transition: color .18s;
+            position: relative;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .filter-item.active {
+            color: var(--red);
+        }
+
+        .filter-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 12px;
+            right: 12px;
+            height: 2.5px;
+            background: var(--red);
+            border-radius: 2px 2px 0 0;
+        }
+
+        .live-dot-sm {
+            width: 5px;
+            height: 5px;
+            background: var(--red);
+            border-radius: 50%;
+            animation: blink 1s infinite;
+        }
+
+        .filter-divider {
+            width: 1px;
+            height: 20px;
+            background: var(--border);
+            flex-shrink: 0;
+            margin: 0 2px;
+        }
+
+        /* Three-dot filter button */
+        .filter-dots-btn {
+            flex-shrink: 0;
+            padding: 6px 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            background: var(--red-light);
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 6px 2px 6px auto;
+            transition: background .15s;
+        }
+
+        .filter-dots-btn:active {
+            background: #ffd6da;
+        }
+
+        .filter-dots-btn span {
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: var(--red);
+            display: block;
+        }
+
+        /* Filter dropdown */
+        .filter-dropdown {
+            position: absolute;
+            top: calc(100% + 4px);
+            right: 8px;
+            background: #fff;
+            border-radius: 14px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            border: 1px solid var(--border);
+            z-index: 200;
+            min-width: 170px;
+            overflow: hidden;
+            transform: scaleY(0);
+            transform-origin: top right;
+            transition: transform .18s ease, opacity .18s;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .filter-dropdown.open {
+            transform: scaleY(1);
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .filter-dd-item {
+            padding: 12px 16px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            border-bottom: 1px solid var(--border);
+            transition: background .14s;
+        }
+
+        .filter-dd-item:last-child {
+            border-bottom: none;
+        }
+
+        .filter-dd-item:hover {
+            background: var(--red-light);
+            color: var(--red);
+        }
+
+        .filter-dd-item.active {
+            background: var(--red-light);
+            color: var(--red);
+            font-weight: 800;
+        }
+
+        /* ══ MAIN CONTENT ══ */
+        .main-content {
+            padding: 14px 12px 100px;
+        }
+
+        /* ══ MATCH CARDS — full width vertical scroll ══ */
+        .cards-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .match-card {
+            background: var(--card);
+            border-radius: 18px;
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: 0 2px 14px rgba(0, 0, 0, 0.07);
+            transition: box-shadow .2s, transform .15s;
+            animation: fadeUp .35s ease both;
+            border: 1px solid var(--border);
+            width: 100%;
+        }
+
+        .match-card:active {
+            transform: scale(0.992);
+        }
+
+        .match-card:hover {
+            box-shadow: 0 6px 24px rgba(232, 25, 44, 0.13);
+        }
+
+        /* Card top strip */
+        .card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 9px 14px 7px;
+            border-bottom: 1px solid var(--border);
+            background: #fff;
+        }
+
+        .card-top-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-format {
+            font-size: 9px;
+            font-weight: 800;
+            color: var(--red);
+            background: var(--red-light);
+            padding: 2px 8px;
+            border-radius: 20px;
+            letter-spacing: .6px;
+        }
+
+        .card-tournament {
+            font-size: 9px;
+            font-weight: 600;
+            color: var(--muted);
+            letter-spacing: .3px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 140px;
+        }
+
+        .card-status-badge {
+            font-size: 9px;
+            font-weight: 800;
+            padding: 3px 9px;
+            border-radius: 20px;
+            letter-spacing: .3px;
+            flex-shrink: 0;
+        }
+
+        .badge-upcoming {
+            background: var(--red-light);
+            color: var(--red);
+        }
+
+        .badge-live {
+            background: var(--red);
+            color: #fff;
+            animation: blink 1.2s infinite;
+        }
+
+        .badge-completed {
+            background: #e8f8ee;
+            color: var(--green);
+        }
+
+        /* Card body */
+        .card-body {
+            padding: 12px 14px 10px;
+        }
+
+        .card-match-info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .card-match-no {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--red-dark);
+            letter-spacing: .8px;
+            text-transform: uppercase;
+        }
+
+        .card-datetime {
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--muted);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .card-teams {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+
+        .card-team {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            flex: 1;
+        }
+
+        .card-logo {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            border: 2px solid var(--border);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-team-abbr {
+            font-family: 'Nunito', sans-serif;
+            font-size: 15px;
+            font-weight: 900;
+            color: var(--text);
+        }
+
+        .card-team-full {
+            font-size: 9px;
+            color: var(--muted);
+            text-align: center;
+            line-height: 1.3;
+        }
+
+        .card-team-score {
+            font-family: 'Nunito', sans-serif;
+            font-size: 16px;
+            font-weight: 900;
+            color: var(--text);
+        }
+
+        .card-vs-block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+
+        .card-vs-circle {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--purple);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Nunito', sans-serif;
+            font-size: 11px;
+            font-weight: 900;
+            color: var(--gold);
+            box-shadow: 0 3px 10px rgba(45, 10, 78, 0.35);
+        }
+
+        /* Countdown */
+        .card-countdown {
+            text-align: center;
+            padding: 8px 12px;
+            background: linear-gradient(90deg, #fff8f8, #fff0f2);
+            border-radius: 12px;
+            margin-bottom: 10px;
+            animation: countdown-tick 2s ease-in-out infinite;
+        }
+
+        .cd-label {
+            font-size: 9px;
+            font-weight: 700;
+            color: var(--muted);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 3px;
+        }
+
+        .cd-time {
+            font-family: 'Nunito', sans-serif;
+            font-size: 20px;
+            font-weight: 900;
+            color: var(--text);
+            letter-spacing: 2px;
+        }
+
+        .cd-units {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 2px;
+        }
+
+        .cd-unit {
+            font-size: 8px;
+            color: var(--muted);
+            font-weight: 600;
+            letter-spacing: .5px;
+        }
+
+        /* Live scores on card */
+        .card-live-block {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .card-live-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: var(--red);
+            color: #fff;
+            border-radius: 20px;
+            padding: 4px 10px;
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: .8px;
+            margin-bottom: 6px;
+            animation: pulse 1.5s infinite;
+        }
+
+        .card-scores {
+            font-family: 'Nunito', sans-serif;
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .card-overs {
+            font-size: 9px;
+            color: var(--muted);
+            font-weight: 600;
+            margin-top: 2px;
+        }
+
+        /* Result row */
+        .card-result {
+            text-align: center;
+            margin-bottom: 10px;
+            padding: 7px 12px;
+            background: linear-gradient(90deg, #fff8e1, #fffde7);
+            border-radius: 10px;
+            border: 1px solid #ffd54f;
+            font-size: 11px;
+            font-weight: 800;
+            color: #7a5000;
+        }
+
+        /* Venue */
+        .card-venue {
+            font-size: 10px;
+            color: var(--muted);
+            margin-bottom: 0;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Predict button row */
+        .card-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-predict-btn {
+            flex: 1;
+            padding: 10px;
+            background: linear-gradient(135deg, var(--red-dark), var(--red));
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            letter-spacing: .3px;
+            box-shadow: 0 3px 12px rgba(232, 25, 44, 0.3);
+            transition: transform .12s;
+        }
+
+        .card-predict-btn:active {
+            transform: scale(0.97);
+        }
+
+        /* Prediction outcome badge */
+        .card-outcome {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 800;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .card-outcome.correct {
+            background: #e8f8ee;
+            color: var(--green);
+            border: 1.5px solid #a8e6c0;
+        }
+
+        .card-outcome.incorrect {
+            background: #fff0f2;
+            color: var(--red);
+            border: 1.5px solid #ffb3bb;
+        }
+
+        .card-outcome-icon {
+            font-size: 16px;
+        }
+
+        /* Prediction reveal overlay */
+        .predict-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 500;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .2s;
+        }
+
+        .predict-overlay.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .predict-modal {
+            background: #fff;
+            border-radius: 22px;
+            padding: 24px 20px;
+            width: 100%;
+            max-width: 360px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            transform: translateY(20px);
+            transition: transform .22s;
+        }
+
+        .predict-overlay.open .predict-modal {
+            transform: translateY(0);
+        }
+
+        .predict-modal-title {
+            font-family: 'Nunito', sans-serif;
+            font-size: 16px;
+            font-weight: 900;
+            color: var(--text);
+            text-align: center;
+            margin-bottom: 4px;
+        }
+
+        .predict-modal-sub {
+            font-size: 11px;
+            color: var(--muted);
+            text-align: center;
+            margin-bottom: 18px;
+        }
+
+        .predict-teams {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .predict-team-btn {
+            flex: 1;
+            padding: 14px 8px;
+            border: 2px solid var(--border);
+            border-radius: 14px;
+            text-align: center;
+            cursor: pointer;
+            transition: all .16s;
+            background: #fff;
+        }
+
+        .predict-team-btn:hover {
+            border-color: var(--red);
+            background: var(--red-light);
+        }
+
+        .predict-team-btn.selected {
+            border-color: var(--red);
+            background: var(--red);
+        }
+
+        .predict-team-btn.selected .ptb-name {
+            color: #fff;
+        }
+
+        .predict-team-btn.selected .ptb-abbr {
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .ptb-logo {
+            font-size: 26px;
+            margin-bottom: 6px;
+        }
+
+        .ptb-name {
+            font-family: 'Nunito', sans-serif;
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--text);
+        }
+
+        .ptb-abbr {
+            font-size: 10px;
+            color: var(--muted);
+        }
+
+        /* Ad placeholder */
+        .ad-placeholder {
+            background: linear-gradient(135deg, #f0f0f0, #e8e8e8);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 16px;
+            border: 2px dashed #ccc;
+        }
+
+        .ad-placeholder .ad-label {
+            font-size: 10px;
+            color: #999;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        .ad-placeholder .ad-text {
+            font-size: 13px;
+            color: #666;
+            font-weight: 600;
+        }
+
+        .predict-submit-btn {
+            width: 100%;
+            padding: 13px;
+            background: linear-gradient(135deg, var(--red-dark), var(--red));
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 14px;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 4px 16px rgba(232, 25, 44, 0.3);
+            margin-bottom: 10px;
+            transition: transform .12s;
+        }
+
+        .predict-submit-btn:active {
+            transform: scale(0.98);
+        }
+
+        .predict-submit-btn:disabled {
+            opacity: .5;
+            cursor: not-allowed;
+        }
+
+        .predict-cancel-btn {
+            width: 100%;
+            padding: 11px;
+            background: transparent;
+            color: var(--muted);
+            border: none;
+            border-radius: 12px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* ══ STANDINGS ══ */
+        .standings-card {
+            background: var(--card);
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            border: 1px solid var(--border);
+            margin-bottom: 20px;
+        }
+
+        .standings-head {
+            display: grid;
+            grid-template-columns: 2rem 1fr repeat(4, 2.2rem);
+            padding: 10px 14px;
+            background: var(--red);
+            font-size: 10px;
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.85);
+            letter-spacing: .8px;
+            text-transform: uppercase;
+            gap: 2px;
+        }
+
+        .standings-head span {
+            text-align: center;
+        }
+
+        .standings-head span:nth-child(2) {
+            text-align: left;
+        }
+
+        .standing-row {
+            display: grid;
+            grid-template-columns: 2rem 1fr repeat(4, 2.2rem);
+            padding: 10px 14px;
+            align-items: center;
+            gap: 2px;
+            border-bottom: 1px solid var(--border);
+            transition: background .15s;
+            cursor: pointer;
+        }
+
+        .standing-row:last-child {
+            border-bottom: none;
+        }
+
+        .standing-row:hover {
+            background: var(--bg);
+        }
+
+        .standing-row.dark {
+            background: var(--red-dark);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .standing-row.dark:hover {
+            background: #9a0e1c;
+        }
+
+        .standing-row.dark .rank {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .standing-row.dark .team-name-sm {
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .standing-row.dark .stat-cell {
+            color: rgba(255, 255, 255, 0.55);
+        }
+
+        .standing-row.dark .pts-cell {
+            color: #ffb3bb;
+        }
+
+        .standings-footer {
+            background: var(--red-dark);
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .standings-footer-text {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .standings-footer-dot {
+            width: 5px;
+            height: 5px;
+            background: #fff;
+            border-radius: 50%;
+            animation: blink 1s infinite;
+        }
+
+        .standing-row.champ {
+            background: linear-gradient(90deg, #fff8f8, #fff);
+        }
+
+        .standing-row.champ .rank {
+            color: var(--red);
+        }
+
+        .rank {
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--muted);
+            text-align: center;
+        }
+
+        .team-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .team-flag-sm {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            border: 1.5px solid var(--border);
+        }
+
+        .team-name-sm {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .stat-cell {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--sub);
+            text-align: center;
+        }
+
+        .pts-cell {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--red);
+            text-align: center;
+        }
+
+        /* ══ SECTION HEAD ══ */
+        .section-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-family: 'Nunito', sans-serif;
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--text);
+        }
+
+        .view-all {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--red);
+            cursor: pointer;
+        }
+
+        /* ══ DETAIL PAGE ══ */
+        .detail-page {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            background: var(--bg);
+            max-width: 430px;
+            margin: 0 auto;
+            overflow-y: auto;
+            transform: translateX(100%);
+            transition: transform .32s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        .detail-page.open {
+            transform: translateX(0);
+        }
+
+        .detail-header {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: var(--red-dark);
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .back-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 17px;
+            flex-shrink: 0;
+            color: #fff;
+            transition: background .15s;
+        }
+
+        .back-btn:active {
+            background: rgba(255, 255, 255, 0.35);
+        }
+
+        .detail-title {
+            font-family: 'Nunito', sans-serif;
+            font-size: 18px;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .detail-subtitle {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 1px;
+        }
+
+        .detail-hero-bg {
+            background: var(--red);
+            padding: 6px 18px 28px;
+        }
+
+        .detail-match-box {
+            background: #fff;
+            border-radius: 20px;
+            padding: 20px 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+        }
+
+        .detail-teams {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .detail-team {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+        }
+
+        .detail-logo {
+            width: 66px;
+            height: 66px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            border: 3px solid var(--border);
+            box-shadow: 0 3px 14px rgba(0, 0, 0, 0.1);
+        }
+
+        .detail-team-full {
+            font-family: 'Nunito', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text);
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .detail-team-score {
+            font-family: 'Nunito', sans-serif;
+            font-size: 24px;
+            font-weight: 900;
+            color: var(--red);
+        }
+
+        .detail-vs {
+            font-family: 'Nunito', sans-serif;
+            font-size: 14px;
+            font-weight: 800;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--purple);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold);
+        }
+
+        .winner-banner {
+            margin: 14px 14px 0;
+            padding: 12px 16px;
+            background: linear-gradient(90deg, #fff8e1, #fffde7);
+            border: 1.5px solid #ffd54f;
+            border-radius: 14px;
+            font-size: 12px;
+            color: #7a5000;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin: 14px 14px 0;
+        }
+
+        .info-card {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 12px 13px;
+            box-shadow: 0 1px 6px rgba(0, 0, 0, 0.04);
+        }
+
+        .info-label {
+            font-size: 9px;
+            color: var(--muted);
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .info-value {
+            font-family: 'Nunito', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text);
+            margin-top: 3px;
+            line-height: 1.3;
+        }
+
+        .scorecard-section {
+            margin: 14px 14px 0;
+        }
+
+        .scorecard-title {
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .scorecard-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .batting-table {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 1px 6px rgba(0, 0, 0, 0.04);
+            margin-bottom: 10px;
+        }
+
+        .table-header {
+            display: grid;
+            grid-template-columns: 2fr .7fr .7fr .7fr;
+            padding: 8px 12px;
+            background: var(--bg);
+            border-bottom: 1px solid var(--border);
+            font-size: 9px;
+            color: var(--muted);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .table-row {
+            display: grid;
+            grid-template-columns: 2fr .7fr .7fr .7fr;
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--border);
+            align-items: center;
+        }
+
+        .table-row:last-child {
+            border-bottom: none;
+        }
+
+        .player-name {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .stat-val {
+            font-family: 'Nunito', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .stat-val.hi {
+            color: var(--red);
+        }
+
+        .stat-val.dim {
+            color: var(--muted);
+        }
+
+        /* ══ BOTTOM NAV ══ */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 430px;
+            background: var(--red-dark);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            padding: 10px 0 12px;
+            z-index: 50;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            transition: color .2s;
+            color: rgba(255, 255, 255, 0.35);
+        }
+
+        .nav-item.active {
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .nav-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-label {
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: .3px;
+            color: inherit;
+            opacity: 0.9;
+        }
+
+        /* ══ MOBILE MENU ══ */
+
+    </style>
+</head>
+
+<body>
+
+    <!-- MOBILE MENU OVERLAY -->
+    <div class="mob-overlay" id="mobOverlay" onclick="closeMenu()"></div>
+    <div class="mob-menu" id="mobMenu">
+        <div class="mob-menu-header">
+            <div class="mob-menu-logo">⭐ Stellar Streak</div>
+            <div class="mob-close-btn" onclick="closeMenu()">✕</div>
+        </div>
+        <nav class="mob-nav-links">
+            <a class="mob-nav-item active" href="#" onclick="closeMenu()">
+                <span class="mob-nav-icon">🏠</span> Home
+            </a>
+            <a class="mob-nav-item" href="#" onclick="closeMenu()">
+                <span class="mob-nav-icon">👥</span> About Us
+            </a>
+            <a class="mob-nav-item" href="#" onclick="closeMenu()">
+                <span class="mob-nav-icon">🔒</span> Privacy Policy
+            </a>
+            <a class="mob-nav-item" href="#" onclick="closeMenu()">
+                <span class="mob-nav-icon">📄</span> Terms & Conditions
+            </a>
+            <a class="mob-nav-item" href="#" onclick="closeMenu()">
+                <span class="mob-nav-icon">📬</span> Contact Us
+            </a>
+        </nav>
+    </div>
+
+    <div id="listView">
+
+        <!-- HEADER -->
+        <div class="header">
+            <div class="menu-trigger" onclick="openMenu()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="2" stroke-linecap="round">
+                    <circle cx="5" cy="5" r="1.5" fill="rgba(255,255,255,0.9)" stroke="none" />
+                    <circle cx="12" cy="5" r="1.5" fill="rgba(255,255,255,0.9)" stroke="none" />
+                    <circle cx="19" cy="5" r="1.5" fill="rgba(255,255,255,0.9)" stroke="none" />
+                    <circle cx="5" cy="12" r="1.5" fill="rgba(255,255,255,0.9)" stroke="none" />
+                    <circle cx="12" cy="12" r="1.5" fill="rgba(255,255,255,0.9)" stroke="none" />
+                    <circle cx="19" cy="12" r="1.5" fill="rgba(255,255,255,0.9)" stroke="none" />
+                    <circle cx="5" cy="19" r="1.5" fill="rgba(255,255,255,0.9)" stroke="none" />
+                    <circle cx="12" cy="19" r="1.5" fill="rgba(255,255,255,0.9)" stroke="none" />
+                    <circle cx="19" cy="19" r="1.5" fill="rgba(255,255,255,0.9)" stroke="none" />
+                </svg>
+            </div>
+            <div class="header-title">
+                Stellar Streak
+                <small>IPL 2020 · Match Predictor</small>
+            </div>
+            <div class="notif-btn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                    <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                </svg>
+            </div>
+        </div>
+
+        <!-- FEATURED MATCH BANNER (first match / live match) -->
+        <div class="featured-banner" id="featuredBanner"></div>
+
+        <!-- FILTER NAV -->
+        <div class="filter-nav" style="position:relative;">
+            <div class="filter-item active" onclick="filterCards('all',this)">All</div>
+            <div class="filter-item" onclick="filterCards('live',this)">
+                Live <span class="live-dot-sm"></span>
+            </div>
+            <div class="filter-item" onclick="filterCards('upcoming',this)">Upcoming</div>
+            <div class="filter-item" onclick="filterCards('completed',this)">Results</div>
+            <div class="filter-divider"></div>
+            <div class="filter-dots-btn" id="filterDotsBtn" onclick="toggleFilterDropdown()">
+                <span></span><span></span><span></span>
+            </div>
+            <!-- Dropdown -->
+            <div class="filter-dropdown" id="filterDropdown">
+                <div class="filter-dd-item active" onclick="filterCards('all',null);closeDropdown()">🏏 All Matches</div>
+                <div class="filter-dd-item" onclick="filterCards('live',null);closeDropdown()">🔴 Live</div>
+                <div class="filter-dd-item" onclick="filterCards('upcoming',null);closeDropdown()">📅 Upcoming</div>
+                <div class="filter-dd-item" onclick="filterCards('completed',null);closeDropdown()">✅ Results</div>
+                <div class="filter-dd-item" onclick="filterCards('playoffs',null);closeDropdown()">🏆 Playoffs</div>
+            </div>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <div class="section-head">
+                <div class="section-title">Match Schedule</div>
+                <div class="view-all" onclick="filterCards('all',null)">View All</div>
+            </div>
+            <div class="cards-list" id="cardsContainer"></div>
+
+            <!-- TEAM STANDINGS -->
+            <div class="section-head" style="margin-top:8px;">
+                <div class="section-title">Team Standings</div>
+                <div class="view-all">IPL 2020</div>
+            </div>
+            <div class="standings-card">
+                <div class="standings-head">
+                    <span>#</span><span>Team</span><span>P</span><span>W</span><span>L</span><span>Pt</span>
+                </div>
+                <div class="standing-row champ">
+                    <div class="rank">1</div>
+                    <div class="team-row">
+                        <div class="team-flag-sm" style="background:linear-gradient(135deg,#0a2a5e,#1a6abf)">🔵</div>
+                        <div class="team-name-sm">MI</div>
+                    </div>
+                    <div class="stat-cell">14</div>
+                    <div class="stat-cell">9</div>
+                    <div class="stat-cell">5</div>
+                    <div class="pts-cell">18</div>
+                </div>
+                <div class="standing-row">
+                    <div class="rank">2</div>
+                    <div class="team-row">
+                        <div class="team-flag-sm" style="background:linear-gradient(135deg,#003380,#1967d2)">🔷</div>
+                        <div class="team-name-sm">DC</div>
+                    </div>
+                    <div class="stat-cell">14</div>
+                    <div class="stat-cell">8</div>
+                    <div class="stat-cell">6</div>
+                    <div class="pts-cell">16</div>
+                </div>
+                <div class="standing-row">
+                    <div class="rank">3</div>
+                    <div class="team-row">
+                        <div class="team-flag-sm" style="background:linear-gradient(135deg,#7a3000,#f77f00)">🟠</div>
+                        <div class="team-name-sm">SRH</div>
+                    </div>
+                    <div class="stat-cell">14</div>
+                    <div class="stat-cell">7</div>
+                    <div class="stat-cell">7</div>
+                    <div class="pts-cell">14</div>
+                </div>
+                <div class="standing-row">
+                    <div class="rank">4</div>
+                    <div class="team-row">
+                        <div class="team-flag-sm" style="background:linear-gradient(135deg,#5a0000,#cc0000)">🔴</div>
+                        <div class="team-name-sm">RCB</div>
+                    </div>
+                    <div class="stat-cell">14</div>
+                    <div class="stat-cell">7</div>
+                    <div class="stat-cell">7</div>
+                    <div class="pts-cell">14</div>
+                </div>
+                <div class="standing-row">
+                    <div class="rank">5</div>
+                    <div class="team-row">
+                        <div class="team-flag-sm" style="background:linear-gradient(135deg,#1a0040,#6600cc)">💜</div>
+                        <div class="team-name-sm">KKR</div>
+                    </div>
+                    <div class="stat-cell">14</div>
+                    <div class="stat-cell">7</div>
+                    <div class="stat-cell">7</div>
+                    <div class="pts-cell">14</div>
+                </div>
+                <div class="standing-row dark">
+                    <div class="rank">6</div>
+                    <div class="team-row">
+                        <div class="team-flag-sm" style="background:linear-gradient(135deg,#550028,#cc0060)">❤️</div>
+                        <div class="team-name-sm">KXIP</div>
+                    </div>
+                    <div class="stat-cell">14</div>
+                    <div class="stat-cell">6</div>
+                    <div class="stat-cell">8</div>
+                    <div class="pts-cell">12</div>
+                </div>
+                <div class="standing-row dark">
+                    <div class="rank">7</div>
+                    <div class="team-row">
+                        <div class="team-flag-sm" style="background:linear-gradient(135deg,#4a0060,#c04cad)">🩷</div>
+                        <div class="team-name-sm">RR</div>
+                    </div>
+                    <div class="stat-cell">14</div>
+                    <div class="stat-cell">6</div>
+                    <div class="stat-cell">8</div>
+                    <div class="pts-cell">12</div>
+                </div>
+                <div class="standings-footer">
+                    <div class="standings-footer-text">
+                        <div class="standings-footer-dot"></div>Live · IPL 2020 UAE
+                    </div>
+                    <div class="standings-footer-text">MI — Season Champions 🏆</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DETAIL PAGE -->
+    <div class="detail-page" id="detailPage">
+        <div class="detail-header">
+            <div class="back-btn" onclick="closeDetail()">←</div>
+            <div>
+                <div class="detail-title" id="detailTitle">Match Details</div>
+                <div class="detail-subtitle" id="detailSubtitle"></div>
+            </div>
+        </div>
+        <div id="detailContent"></div>
+    </div>
+
+    <!-- PREDICT MODAL -->
+    <div class="predict-overlay" id="predictOverlay">
+        <div class="predict-modal">
+            <div class="predict-modal-title" id="predictTitle">Who will win?</div>
+            <div class="predict-modal-sub" id="predictSub">Make your prediction for this match</div>
+            <div class="predict-teams" id="predictTeams"></div>
+            <div class="ad-placeholder">
+                <div class="ad-label">ADVERTISEMENT</div>
+                <div class="ad-text">🎯 Your ad here — sponsor the prediction!</div>
+            </div>
+            <button class="predict-submit-btn" id="predictSubmitBtn" disabled onclick="submitPrediction()">Reveal My Prediction</button>
+            <button class="predict-cancel-btn" onclick="closePredictModal()">Cancel</button>
+        </div>
+    </div>
+
+    <!-- BOTTOM NAV -->
+    <div class="bottom-nav">
+        <div class="nav-item active">
+            <div class="nav-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                    <polyline points="9 22 9 12 15 12 15 22" />
+                </svg>
+            </div>
+            <div class="nav-label">Home</div>
+        </div>
+        <div class="nav-item">
+            <div class="nav-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="4" width="18" height="18" rx="2" />
+                    <line x1="16" y1="2" x2="16" y2="6" />
+                    <line x1="8" y1="2" x2="8" y2="6" />
+                    <line x1="3" y1="10" x2="21" y2="10" />
+                </svg>
+            </div>
+            <div class="nav-label">Fixtures</div>
+        </div>
+        <div class="nav-item">
+            <div class="nav-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                    <polyline points="14 2 14 8 20 8" />
+                    <line x1="16" y1="13" x2="8" y2="13" />
+                    <line x1="16" y1="17" x2="8" y2="17" />
+                </svg>
+            </div>
+            <div class="nav-label">Archives</div>
+        </div>
+    </div>
+
+    <script>
+        /* ══════════════════════════════
+   DATA
+══════════════════════════════ */
+        const TEAMS = {
+            MI: {
+                name: 'Mumbai Indians',
+                bg: 'linear-gradient(135deg,#0a2a5e,#1a6abf)',
+                emoji: '🔵',
+                short: 'Mumbai'
+            },
+            CSK: {
+                name: 'Chennai Super Kings',
+                bg: 'linear-gradient(135deg,#7a5200,#f5c800)',
+                emoji: '🟡',
+                short: 'Chennai'
+            },
+            RCB: {
+                name: 'Royal Challengers Bangalore',
+                bg: 'linear-gradient(135deg,#5a0000,#cc0000)',
+                emoji: '🔴',
+                short: 'Bangalore'
+            },
+            DC: {
+                name: 'Delhi Capitals',
+                bg: 'linear-gradient(135deg,#003380,#1967d2)',
+                emoji: '🔷',
+                short: 'Delhi'
+            },
+            KKR: {
+                name: 'Kolkata Knight Riders',
+                bg: 'linear-gradient(135deg,#1a0040,#6600cc)',
+                emoji: '💜',
+                short: 'Kolkata'
+            },
+            SRH: {
+                name: 'Sunrisers Hyderabad',
+                bg: 'linear-gradient(135deg,#7a3000,#f77f00)',
+                emoji: '🟠',
+                short: 'Hyderabad'
+            },
+            KXIP: {
+                name: 'Kings XI Punjab',
+                bg: 'linear-gradient(135deg,#550028,#cc0060)',
+                emoji: '❤️',
+                short: 'Punjab'
+            },
+            RR: {
+                name: 'Rajasthan Royals',
+                bg: 'linear-gradient(135deg,#4a0060,#c04cad)',
+                emoji: '🩷',
+                short: 'Rajasthan'
+            },
+        };
+
+        // status: 'upcoming' | 'live' | 'completed'
+        // prediction: null | { pick: 'MI', correct: true/false }
+        // tossTarget = ISO datetime string for toss (upcoming matches)
+        const MATCHES = [{
+                id: 1,
+                match: 'Match 1',
+                t1: 'MI',
+                t2: 'CSK',
+                date: 'Sep 19',
+                time: '7:30 PM',
+                venue: 'Abu Dhabi',
+                status: 'live',
+                s1: '162/9',
+                s2: '148/7',
+                result: 'MI won by 14 runs',
+                mom: 'Rohit Sharma',
+                toss: 'MI (bat)',
+                overs: '18.2',
+                winner: 'MI',
+                prediction: null,
+                batting1: [{
+                    n: 'Rohit Sharma',
+                    s: '68',
+                    b: '51',
+                    sr: '133'
+                }, {
+                    n: 'Quinton de Kock',
+                    s: '33',
+                    b: '28',
+                    sr: '117'
+                }, {
+                    n: 'Suryakumar Yadav',
+                    s: '40',
+                    b: '29',
+                    sr: '137'
+                }],
+                bowling1: [{
+                    n: 'Deepak Chahar',
+                    o: '4-0-24-1'
+                }, {
+                    n: 'Sam Curran',
+                    o: '4-0-28-2'
+                }, {
+                    n: 'Shardul Thakur',
+                    o: '4-0-38-1'
+                }]
+            },
+            {
+                id: 2,
+                match: 'Match 2',
+                t1: 'SRH',
+                t2: 'RCB',
+                date: 'Sep 21',
+                time: '7:30 PM',
+                venue: 'Dubai',
+                status: 'upcoming',
+                s1: '',
+                s2: '',
+                result: '',
+                mom: '',
+                toss: '',
+                overs: '',
+                winner: '',
+                prediction: null,
+                tossTarget: '2024-09-21T14:00:00',
+                batting1: [{
+                    n: 'Devdutt Padikkal',
+                    s: '56',
+                    b: '42',
+                    sr: '133'
+                }, {
+                    n: 'Virat Kohli',
+                    s: '35',
+                    b: '28',
+                    sr: '125'
+                }, {
+                    n: 'AB de Villiers',
+                    s: '51',
+                    b: '30',
+                    sr: '170'
+                }],
+                bowling1: [{
+                    n: 'Rashid Khan',
+                    o: '4-0-21-2'
+                }, {
+                    n: 'Bhuvneshwar Kumar',
+                    o: '3-0-26-1'
+                }, {
+                    n: 'T Natarajan',
+                    o: '4-0-34-2'
+                }]
+            },
+            {
+                id: 3,
+                match: 'Match 3',
+                t1: 'KKR',
+                t2: 'MI',
+                date: 'Sep 23',
+                time: '7:30 PM',
+                venue: 'Abu Dhabi',
+                status: 'upcoming',
+                s1: '',
+                s2: '',
+                result: '',
+                mom: '',
+                toss: '',
+                overs: '',
+                winner: '',
+                prediction: null,
+                tossTarget: '2024-09-23T14:00:00',
+                batting1: [{
+                    n: 'Quinton de Kock',
+                    s: '55',
+                    b: '44',
+                    sr: '125'
+                }, {
+                    n: 'Suryakumar Yadav',
+                    s: '47',
+                    b: '32',
+                    sr: '146'
+                }, {
+                    n: 'Kieron Pollard',
+                    s: '41',
+                    b: '25',
+                    sr: '164'
+                }],
+                bowling1: [{
+                    n: 'Pat Cummins',
+                    o: '4-0-22-2'
+                }, {
+                    n: 'Varun Chakravarthy',
+                    o: '4-0-31-1'
+                }, {
+                    n: 'Kamlesh Nagarkoti',
+                    o: '3-0-28-0'
+                }]
+            },
+            {
+                id: 4,
+                match: 'Match 4',
+                t1: 'KXIP',
+                t2: 'DC',
+                date: 'Sep 20',
+                time: '3:30 PM',
+                venue: 'Dubai',
+                status: 'completed',
+                s1: '157/8',
+                s2: '228/4',
+                result: 'DC won by 14 runs (D/L)',
+                mom: 'Shreyas Iyer',
+                toss: 'DC (bat)',
+                overs: '20',
+                winner: 'DC',
+                prediction: null,
+                batting1: [{
+                    n: 'Shikhar Dhawan',
+                    s: '57',
+                    b: '40',
+                    sr: '142'
+                }, {
+                    n: 'Shreyas Iyer',
+                    s: '88',
+                    b: '38',
+                    sr: '231'
+                }, {
+                    n: 'Marcus Stoinis',
+                    s: '53',
+                    b: '21',
+                    sr: '252'
+                }],
+                bowling1: [{
+                    n: 'Mujeeb Ur Rahman',
+                    o: '4-0-32-1'
+                }, {
+                    n: 'Mohammed Shami',
+                    o: '4-0-45-1'
+                }, {
+                    n: 'Ravi Bishnoi',
+                    o: '4-0-42-0'
+                }]
+            },
+            {
+                id: 5,
+                match: 'Match 5',
+                t1: 'RR',
+                t2: 'CSK',
+                date: 'Sep 22',
+                time: '7:30 PM',
+                venue: 'Sharjah',
+                status: 'completed',
+                s1: '216/7',
+                s2: '200/6',
+                result: 'RR won by 16 runs',
+                mom: 'Sanju Samson',
+                toss: 'CSK (bat)',
+                overs: '20',
+                winner: 'RR',
+                prediction: null,
+                batting1: [{
+                    n: 'Sanju Samson',
+                    s: '74',
+                    b: '32',
+                    sr: '231'
+                }, {
+                    n: 'Robin Uthappa',
+                    s: '41',
+                    b: '30',
+                    sr: '136'
+                }, {
+                    n: 'Steven Smith',
+                    s: '69',
+                    b: '47',
+                    sr: '146'
+                }],
+                bowling1: [{
+                    n: 'Ravindra Jadeja',
+                    o: '4-0-33-2'
+                }, {
+                    n: 'Deepak Chahar',
+                    o: '4-0-30-1'
+                }, {
+                    n: 'Lungi Ngidi',
+                    o: '4-0-42-0'
+                }]
+            },
+            {
+                id: 6,
+                match: 'Match 6',
+                t1: 'SRH',
+                t2: 'DC',
+                date: 'Sep 25',
+                time: '7:30 PM',
+                venue: 'Abu Dhabi',
+                status: 'completed',
+                s1: '162/4',
+                s2: '140/9',
+                result: 'SRH won by 15 runs',
+                mom: 'David Warner',
+                toss: 'SRH (bat)',
+                overs: '20',
+                winner: 'SRH',
+                prediction: null,
+                batting1: [{
+                    n: 'David Warner',
+                    s: '66',
+                    b: '51',
+                    sr: '129'
+                }, {
+                    n: 'Jonny Bairstow',
+                    s: '53',
+                    b: '35',
+                    sr: '151'
+                }, {
+                    n: 'Manish Pandey',
+                    s: '30',
+                    b: '24',
+                    sr: '125'
+                }],
+                bowling1: [{
+                    n: 'Kagiso Rabada',
+                    o: '4-0-24-2'
+                }, {
+                    n: 'Anrich Nortje',
+                    o: '4-0-28-3'
+                }, {
+                    n: 'R Ashwin',
+                    o: '4-0-32-1'
+                }]
+            },
+            {
+                id: 7,
+                match: 'Match 7',
+                t1: 'MI',
+                t2: 'RCB',
+                date: 'Sep 28',
+                time: '7:30 PM',
+                venue: 'Abu Dhabi',
+                status: 'completed',
+                s1: '201/5',
+                s2: '167/8',
+                result: 'MI won by 34 runs',
+                mom: 'Ishan Kishan',
+                toss: 'MI (bat)',
+                overs: '20',
+                winner: 'MI',
+                prediction: null,
+                batting1: [{
+                    n: 'Ishan Kishan',
+                    s: '99',
+                    b: '58',
+                    sr: '170'
+                }, {
+                    n: 'Rohit Sharma',
+                    s: '43',
+                    b: '35',
+                    sr: '122'
+                }, {
+                    n: 'Hardik Pandya',
+                    s: '30',
+                    b: '18',
+                    sr: '166'
+                }],
+                bowling1: [{
+                    n: 'Jasprit Bumrah',
+                    o: '4-0-14-2'
+                }, {
+                    n: 'Trent Boult',
+                    o: '4-0-24-1'
+                }, {
+                    n: 'Kieron Pollard',
+                    o: '2-0-18-1'
+                }]
+            },
+            {
+                id: 8,
+                match: 'Match 8',
+                t1: 'KKR',
+                t2: 'SRH',
+                date: 'Sep 26',
+                time: '7:30 PM',
+                venue: 'Abu Dhabi',
+                status: 'completed',
+                s1: '163/5',
+                s2: '142/8',
+                result: 'KKR won by 7 runs',
+                mom: 'Eoin Morgan',
+                toss: 'KKR (bat)',
+                overs: '20',
+                winner: 'KKR',
+                prediction: null,
+                batting1: [{
+                    n: 'Shubman Gill',
+                    s: '70',
+                    b: '62',
+                    sr: '112'
+                }, {
+                    n: 'Eoin Morgan',
+                    s: '44',
+                    b: '28',
+                    sr: '157'
+                }, {
+                    n: 'Andre Russell',
+                    s: '26',
+                    b: '14',
+                    sr: '185'
+                }],
+                bowling1: [{
+                    n: 'Varun Chakravarthy',
+                    o: '4-0-28-3'
+                }, {
+                    n: 'Pat Cummins',
+                    o: '4-0-22-2'
+                }, {
+                    n: 'Kuldeep Yadav',
+                    o: '4-0-31-1'
+                }]
+            },
+            {
+                id: 9,
+                match: 'Match 9',
+                t1: 'CSK',
+                t2: 'MI',
+                date: 'Oct 23',
+                time: '7:30 PM',
+                venue: 'Abu Dhabi',
+                status: 'completed',
+                s1: '114/9',
+                s2: '115/6',
+                result: 'MI won by 4 wickets',
+                mom: 'Jasprit Bumrah',
+                toss: 'MI (bowl)',
+                overs: '20',
+                winner: 'MI',
+                prediction: null,
+                batting1: [{
+                    n: 'MS Dhoni',
+                    s: '24',
+                    b: '23',
+                    sr: '104'
+                }, {
+                    n: 'Faf du Plessis',
+                    s: '30',
+                    b: '28',
+                    sr: '107'
+                }, {
+                    n: 'Ambati Rayudu',
+                    s: '27',
+                    b: '22',
+                    sr: '122'
+                }],
+                bowling1: [{
+                    n: 'Jasprit Bumrah',
+                    o: '4-0-14-2'
+                }, {
+                    n: 'Trent Boult',
+                    o: '4-0-22-3'
+                }, {
+                    n: 'James Pattinson',
+                    o: '4-0-25-1'
+                }]
+            },
+            {
+                id: 10,
+                match: 'Match 10',
+                t1: 'RCB',
+                t2: 'KXIP',
+                date: 'Oct 15',
+                time: '7:30 PM',
+                venue: 'Sharjah',
+                status: 'completed',
+                s1: '177/5',
+                s2: '178/4',
+                result: 'KXIP won by 6 wickets',
+                mom: 'KL Rahul',
+                toss: 'RCB (bat)',
+                overs: '20',
+                winner: 'KXIP',
+                prediction: null,
+                batting1: [{
+                    n: 'KL Rahul',
+                    s: '61',
+                    b: '49',
+                    sr: '124'
+                }, {
+                    n: 'Mayank Agarwal',
+                    s: '45',
+                    b: '36',
+                    sr: '125'
+                }, {
+                    n: 'Glenn Maxwell',
+                    s: '32',
+                    b: '20',
+                    sr: '160'
+                }],
+                bowling1: [{
+                    n: 'Chris Morris',
+                    o: '4-0-28-2'
+                }, {
+                    n: 'Mohammed Shami',
+                    o: '4-0-32-1'
+                }, {
+                    n: 'Ravi Bishnoi',
+                    o: '4-0-22-2'
+                }]
+            },
+            {
+                id: 11,
+                match: 'Qualifier 1',
+                t1: 'MI',
+                t2: 'DC',
+                date: 'Nov 5',
+                time: '7:30 PM',
+                venue: 'Abu Dhabi',
+                status: 'completed',
+                s1: '200/5',
+                s2: '143/8',
+                result: 'MI won by 57 runs',
+                mom: 'Rohit Sharma',
+                toss: 'MI (bat)',
+                overs: '20',
+                winner: 'MI',
+                prediction: null,
+                batting1: [{
+                    n: 'Rohit Sharma',
+                    s: '75',
+                    b: '45',
+                    sr: '166'
+                }, {
+                    n: 'Quinton de Kock',
+                    s: '66',
+                    b: '47',
+                    sr: '140'
+                }, {
+                    n: 'Ishan Kishan',
+                    s: '27',
+                    b: '18',
+                    sr: '150'
+                }],
+                bowling1: [{
+                    n: 'Jasprit Bumrah',
+                    o: '4-0-14-3'
+                }, {
+                    n: 'Trent Boult',
+                    o: '4-0-26-2'
+                }, {
+                    n: 'Hardik Pandya',
+                    o: '2-0-18-1'
+                }]
+            },
+            {
+                id: 12,
+                match: '🏆 Final',
+                t1: 'MI',
+                t2: 'DC',
+                date: 'Nov 10',
+                time: '7:30 PM',
+                venue: 'Dubai',
+                status: 'completed',
+                s1: '156/5',
+                s2: '135/7',
+                result: 'MI won by 5 wkts — Champions!',
+                mom: 'Ishan Kishan',
+                toss: 'DC (bat)',
+                overs: '20',
+                winner: 'MI',
+                prediction: null,
+                batting1: [{
+                    n: 'Rohit Sharma',
+                    s: '68',
+                    b: '51',
+                    sr: '133'
+                }, {
+                    n: 'Ishan Kishan',
+                    s: '33',
+                    b: '19',
+                    sr: '173'
+                }, {
+                    n: 'Hardik Pandya',
+                    s: '22',
+                    b: '13',
+                    sr: '169'
+                }],
+                bowling1: [{
+                    n: 'Jasprit Bumrah',
+                    o: '4-0-14-2'
+                }, {
+                    n: 'Trent Boult',
+                    o: '4-0-28-2'
+                }, {
+                    n: 'Hardik Pandya',
+                    o: '3-0-22-1'
+                }]
+            },
+        ];
+
+        /* ══════════════════════════════
+           PREDICTION STATE (in-memory)
+        ══════════════════════════════ */
+        const predictions = {}; // { matchId: { pick: 'MI', shown: false } }
+        let currentPredictId = null;
+        let currentPredictPick = null;
+
+        /* ══════════════════════════════
+           COUNTDOWN HELPERS
+        ══════════════════════════════ */
+        function getCountdownParts(targetISO) {
+            const diff = new Date(targetISO) - new Date();
+            if (diff <= 0) return null;
+            const d = Math.floor(diff / 86400000);
+            const h = Math.floor((diff % 86400000) / 3600000);
+            const m = Math.floor((diff % 3600000) / 60000);
+            const s = Math.floor((diff % 60000) / 1000);
+            return {
+                d,
+                h,
+                m,
+                s
+            };
+        }
+
+        function fmtCountdown(targetISO) {
+            const p = getCountdownParts(targetISO);
+            if (!p) return {
+                time: 'TOSS NOW!',
+                units: ['', '', '']
+            };
+            if (p.d > 0) return {
+                time: `${p.d}d ${String(p.h).padStart(2,'0')}h ${String(p.m).padStart(2,'0')}m`,
+                units: ['DAYS', 'HRS', 'MIN']
+            };
+            return {
+                time: `${String(p.h).padStart(2,'0')}:${String(p.m).padStart(2,'0')}:${String(p.s).padStart(2,'0')}`,
+                units: ['HRS', 'MIN', 'SEC']
+            };
+        }
+
+        /* ══════════════════════════════
+           FEATURED BANNER
+        ══════════════════════════════ */
+        function renderFeatured() {
+            const liveMatch = MATCHES.find(m => m.status === 'live');
+            const m = liveMatch || MATCHES.find(m => m.status === 'upcoming') || MATCHES[0];
+            const t1 = TEAMS[m.t1],
+                t2 = TEAMS[m.t2];
+
+            let centerBlock = '';
+            if (m.status === 'live') {
+                centerBlock = `
+      <div class="feat-live-scores">
+        <div class="feat-live-badge"><span style="width:6px;height:6px;background:#fff;border-radius:50%;display:inline-block;"></span> LIVE</div>
+        <div class="feat-scores-row">
+          <span>${m.s1 || '—'}</span>
+          <span style="font-size:12px;color:var(--muted)">vs</span>
+          <span>${m.s2 || '—'}</span>
+        </div>
+        <div class="feat-overs">Overs: ${m.overs}</div>
+      </div>`;
+            } else if (m.status === 'upcoming' && m.tossTarget) {
+                const cd = fmtCountdown(m.tossTarget);
+                centerBlock = `
+      <div class="feat-countdown">
+        <div class="feat-countdown-label">Toss In</div>
+        <div class="feat-countdown-time" id="featCdTime">${cd.time}</div>
+        <div class="feat-countdown-subs">
+          ${cd.units.map(u=>`<span>${u}</span>`).join('')}
+        </div>
+      </div>`;
+            } else {
+                centerBlock = `<div class="feat-result">🏆 ${m.result}</div>`;
+            }
+
+            const labelText = m.status === 'live' ? '🔴 LIVE NOW' : m.status === 'upcoming' ? '📅 FEATURED MATCH' : '🏆 RESULT';
+
+            document.getElementById('featuredBanner').innerHTML = `
+        <div class="banner-slide">
+        <div class="banner-bg" style="background:linear-gradient(135deg,#7a0010 0%,#e8192c 100%)"></div>
+        <div class="banner-content">
+          <div class="banner-tag">${m.status === 'live' ? '<span class="feat-live-dot"></span>' : ''} ${labelText}</div>
+          <div class="banner-title">${m.t1} vs ${m.t2}<br>${m.match} · ${m.date} · ${m.time}</div>
+          <div class="banner-sub">Abu Dhabi · Match 1</div>
+        </div>
+      </div>`;
+        }
+
+        /* ══════════════════════════════
+           RENDER CARDS
+        ══════════════════════════════ */
+        function renderCards(data) {
+            const c = document.getElementById('cardsContainer');
+            c.innerHTML = '';
+            data.forEach((m, i) => {
+                const t1 = TEAMS[m.t1],
+                    t2 = TEAMS[m.t2];
+                const pred = predictions[m.id];
+
+                // Status badge
+                let statusBadge = '';
+                if (m.status === 'live') statusBadge = `<span class="card-status-badge badge-live">🔴 LIVE</span>`;
+                else if (m.status === 'upcoming') statusBadge = `<span class="card-status-badge badge-upcoming">Upcoming</span>`;
+                else statusBadge = `<span class="card-status-badge badge-completed">Result</span>`;
+
+                // Center block: countdown / live scores / result
+                let centerBlock = '';
+                if (m.status === 'upcoming' && m.tossTarget) {
+                    const cd = fmtCountdown(m.tossTarget);
+                    centerBlock = `
+        <div class="card-countdown" id="cd-${m.id}">
+          <div class="cd-label">⏱ Toss In</div>
+          <div class="cd-time">${cd.time}</div>
+          <div class="cd-units">
+            ${cd.units.map(u=>`<span class="cd-unit">${u}</span>`).join('')}
+          </div>
+        </div>`;
+                } else if (m.status === 'live') {
+                    centerBlock = `
+        <div class="card-live-block">
+          <div class="card-live-tag">
+            <span style="width:5px;height:5px;background:#fff;border-radius:50%;display:inline-block;"></span> LIVE
+          </div>
+          <div class="card-scores">${m.s1} <span style="font-size:11px;color:var(--muted)">vs</span> ${m.s2}</div>
+          <div class="card-overs">Overs: ${m.overs}</div>
+        </div>`;
+                } else if (m.status === 'completed') {
+                    centerBlock = `<div class="card-result">🏏 ${m.result}</div>`;
+                }
+
+                // Prediction / action block
+                let actionBlock = '';
+                if (pred) {
+                    const isCorrect = pred.pick === m.winner;
+                    actionBlock = `
+        <div class="card-outcome ${isCorrect ? 'correct' : 'incorrect'}">
+          <span class="card-outcome-icon">${isCorrect ? '✅' : '❌'}</span>
+          <span>You picked <b>${pred.pick}</b> — ${isCorrect ? 'Correct!' : 'Wrong!'}</span>
+        </div>`;
+                } else {
+                    actionBlock = `
+        <button class="card-predict-btn" onclick="event.stopPropagation();openPredictModal(${m.id})"
+          ${m.status === 'completed' && !pred ? 'style="background:linear-gradient(135deg,#888,#aaa);box-shadow:none;"' : ''}>
+          ${m.status === 'completed' ? '📊 Match Ended' : '🎯 View Prediction'}
+        </button>`;
+                }
+
+                // Score in logo row (for completed/live)
+                const score1 = (m.s1 && m.status !== 'upcoming') ? `<div class="card-team-score">${m.s1}</div>` : '';
+                const score2 = (m.s2 && m.status !== 'upcoming') ? `<div class="card-team-score">${m.s2}</div>` : '';
+
+                const el = document.createElement('div');
+                el.className = 'match-card';
+                el.style.animationDelay = (i * 0.05) + 's';
+                el.innerHTML = `
+      <div class="card-top">
+        <div class="card-top-left">
+          <span class="card-format">T20</span>
+          <span class="card-tournament">Indian Premier League</span>
+        </div>
+        ${statusBadge}
+      </div>
+      <div class="card-body">
+        <div class="card-match-info">
+          <div class="card-match-no">${m.match}</div>
+          <div class="card-datetime">📅 ${m.date} &nbsp;⏰ ${m.time}</div>
+          <div class="card-venue">📍 ${m.venue}</div>
+        </div>
+        <div class="card-teams">
+          <div class="card-team">
+            <div class="card-logo" style="background:${t1.bg}">${t1.emoji}</div>
+            <div class="card-team-abbr">${m.t1}</div>
+            <div class="card-team-full">${t1.short}</div>
+            ${score1}
+          </div>
+          <div class="card-vs-block">
+            <div class="card-vs-circle">VS</div>
+          </div>
+          <div class="card-team">
+            <div class="card-logo" style="background:${t2.bg}">${t2.emoji}</div>
+            <div class="card-team-abbr">${m.t2}</div>
+            <div class="card-team-full">${t2.short}</div>
+            ${score2}
+          </div>
+        </div>
+        ${centerBlock}
+        
+        <div class="card-actions">
+          ${actionBlock}
+        </div>
+      </div>`;
+                el.onclick = () => openDetail(m.id);
+                c.appendChild(el);
+            });
+        }
+
+        /* ══════════════════════════════
+           FILTER
+        ══════════════════════════════ */
+        function filterCards(key, el) {
+            document.querySelectorAll('.filter-item').forEach(t => t.classList.remove('active'));
+            if (el && el.classList) el.classList.add('active');
+            let data = MATCHES;
+            if (key === 'live') data = MATCHES.filter(m => m.status === 'live');
+            else if (key === 'upcoming') data = MATCHES.filter(m => m.status === 'upcoming');
+            else if (key === 'completed') data = MATCHES.filter(m => m.status === 'completed');
+            else if (key === 'playoffs') data = MATCHES.filter(m => m.match.includes('Qualifier') || m.match.includes('Final'));
+            renderCards(data);
+        }
+
+        /* ══════════════════════════════
+           THREE-DOT FILTER DROPDOWN
+        ══════════════════════════════ */
+        function toggleFilterDropdown() {
+            document.getElementById('filterDropdown').classList.toggle('open');
+        }
+
+        function closeDropdown() {
+            document.getElementById('filterDropdown').classList.remove('open');
+        }
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('#filterDotsBtn') && !e.target.closest('#filterDropdown')) {
+                closeDropdown();
+            }
+        });
+
+        /* ══════════════════════════════
+           PREDICTION MODAL
+        ══════════════════════════════ */
+        function openPredictModal(id) {
+            const m = MATCHES.find(x => x.id === id);
+            if (!m) return;
+            currentPredictId = id;
+            currentPredictPick = null;
+
+            const t1 = TEAMS[m.t1],
+                t2 = TEAMS[m.t2];
+            document.getElementById('predictTitle').textContent = `Who will win?`;
+            document.getElementById('predictSub').textContent = `${m.t1} vs ${m.t2} · ${m.match} · ${m.date}`;
+            document.getElementById('predictSubmitBtn').disabled = true;
+
+            const existing = predictions[id];
+
+            document.getElementById('predictTeams').innerHTML = `
+    <div class="predict-team-btn ${existing?.pick===m.t1?'selected':''}" onclick="selectPick('${m.t1}')">
+      <div class="ptb-logo">${t1.emoji}</div>
+      <div class="ptb-name">${m.t1}</div>
+      <div class="ptb-abbr">${t1.short}</div>
+    </div>
+    <div class="predict-team-btn ${existing?.pick===m.t2?'selected':''}" onclick="selectPick('${m.t2}')">
+      <div class="ptb-logo">${t2.emoji}</div>
+      <div class="ptb-name">${m.t2}</div>
+      <div class="ptb-abbr">${t2.short}</div>
+    </div>`;
+
+            if (existing) {
+                currentPredictPick = existing.pick;
+                document.getElementById('predictSubmitBtn').disabled = false;
+                document.getElementById('predictSubmitBtn').textContent = 'Update Prediction';
+            } else {
+                document.getElementById('predictSubmitBtn').textContent = 'Reveal My Prediction';
+            }
+
+            document.getElementById('predictOverlay').classList.add('open');
+        }
+
+        function selectPick(team) {
+            currentPredictPick = team;
+            document.querySelectorAll('.predict-team-btn').forEach(btn => {
+                btn.classList.toggle('selected', btn.querySelector('.ptb-name').textContent === team);
+            });
+            document.getElementById('predictSubmitBtn').disabled = false;
+        }
+
+        function submitPrediction() {
+            if (!currentPredictPick || !currentPredictId) return;
+            predictions[currentPredictId] = {
+                pick: currentPredictPick
+            };
+            closePredictModal();
+            // Re-render cards & featured
+            const activeFilter = document.querySelector('.filter-item.active');
+            if (activeFilter) {
+                const key = activeFilter.textContent.trim().toLowerCase();
+                filterCards(key === 'all' ? 'all' : key === 'live' ? 'live' : key === 'upcoming' ? 'upcoming' : 'completed', activeFilter);
+            } else {
+                renderCards(MATCHES);
+            }
+            renderFeatured();
+        }
+
+        function closePredictModal() {
+            document.getElementById('predictOverlay').classList.remove('open');
+            currentPredictId = null;
+            currentPredictPick = null;
+        }
+
+        /* ══════════════════════════════
+           DETAIL PAGE
+        ══════════════════════════════ */
+        function openDetail(id) {
+            const m = MATCHES.find(x => x.id === id);
+            if (!m) return;
+            const t1 = TEAMS[m.t1],
+                t2 = TEAMS[m.t2];
+            document.getElementById('detailTitle').textContent = `${m.t1} vs ${m.t2}`;
+            document.getElementById('detailSubtitle').textContent = `${m.match} · ${m.date} · ${m.venue}`;
+
+            const rows1 = m.batting1.map(p => `
+    <div class="table-row">
+      <div class="player-name">${p.n}</div>
+      <div class="stat-val hi">${p.s}</div>
+      <div class="stat-val dim">${p.b}</div>
+      <div class="stat-val dim">${p.sr}</div>
+    </div>`).join('');
+            const rows2 = m.bowling1.map(p => `
+    <div class="table-row" style="grid-template-columns:1fr 1fr">
+      <div class="player-name">${p.n}</div>
+      <div class="stat-val dim" style="text-align:left;font-size:12px">${p.o}</div>
+    </div>`).join('');
+
+            document.getElementById('detailContent').innerHTML = `
+    <div class="detail-hero-bg">
+      <div class="detail-match-box">
+        <div class="detail-teams">
+          <div class="detail-team">
+            <div class="detail-logo" style="background:${t1.bg}">${t1.emoji}</div>
+            <div class="detail-team-full">${t1.name}</div>
+            ${m.s1?`<div class="detail-team-score">${m.s1}</div>`:''}
+          </div>
+          <div class="detail-vs">VS</div>
+          <div class="detail-team">
+            <div class="detail-logo" style="background:${t2.bg}">${t2.emoji}</div>
+            <div class="detail-team-full">${t2.name}</div>
+            ${m.s2?`<div class="detail-team-score">${m.s2}</div>`:''}
+          </div>
+        </div>
+      </div>
+    </div>
+    ${m.result?`<div class="winner-banner">🏆 ${m.result}</div>`:''}
+    <div class="info-grid">
+      <div class="info-card"><div class="info-label">📅 Date</div><div class="info-value">${m.date}, 2020</div></div>
+      <div class="info-card"><div class="info-label">⏰ Time</div><div class="info-value">${m.time} IST</div></div>
+      <div class="info-card"><div class="info-label">📍 Venue</div><div class="info-value">${m.venue}</div></div>
+      <div class="info-card"><div class="info-label">🪙 Toss</div><div class="info-value">${m.toss||'—'}</div></div>
+      <div class="info-card"><div class="info-label">⭐ MOM</div><div class="info-value">${m.mom||'—'}</div></div>
+      <div class="info-card"><div class="info-label">🏟 Format</div><div class="info-value">T20 · UAE</div></div>
+    </div>
+    <div class="scorecard-section">
+      <div class="scorecard-title">Key Batting</div>
+      <div class="batting-table">
+        <div class="table-header"><div>Batter</div><div style="text-align:center">R</div><div style="text-align:center">B</div><div style="text-align:center">SR</div></div>
+        ${rows1}
+      </div>
+    </div>
+    <div class="scorecard-section">
+      <div class="scorecard-title">Key Bowling</div>
+      <div class="batting-table">
+        <div class="table-header" style="grid-template-columns:1fr 1fr"><div>Bowler</div><div>O-M-R-W</div></div>
+        ${rows2}
+      </div>
+    </div>
+    <div style="height:80px"></div>`;
+
+            document.getElementById('detailPage').classList.add('open');
+            document.getElementById('detailPage').scrollTop = 0;
+        }
+
+        function closeDetail() {
+            document.getElementById('detailPage').classList.remove('open');
+        }
+
+        /* ══════════════════════════════
+           MOBILE MENU
+        ══════════════════════════════ */
+        function openMenu() {
+            document.getElementById('mobMenu').classList.add('open');
+            document.getElementById('mobOverlay').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            document.getElementById('mobMenu').classList.remove('open');
+            document.getElementById('mobOverlay').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        /* ══════════════════════════════
+           COUNTDOWN TICK (updates every second)
+        ══════════════════════════════ */
+        function tickCountdowns() {
+            MATCHES.forEach(m => {
+                if (m.status === 'upcoming' && m.tossTarget) {
+                    const cd = fmtCountdown(m.tossTarget);
+                    const el = document.getElementById(`cd-${m.id}`);
+                    if (el) {
+                        el.querySelector('.cd-time').textContent = cd.time;
+                        el.querySelectorAll('.cd-unit').forEach((u, i) => u.textContent = cd.units[i] || '');
+                    }
+                    const featTime = document.getElementById('featCdTime');
+                    if (featTime) featTime.textContent = cd.time;
+                }
+            });
+        }
+        setInterval(tickCountdowns, 1000);
+
+        /* ══════════════════════════════
+           INIT
+        ══════════════════════════════ */
+        renderFeatured();
+        renderCards(MATCHES);
+
+    </script>
+</body>
+
+</html>
