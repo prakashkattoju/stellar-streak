@@ -305,7 +305,7 @@
 
         /* ══ FEATURED MATCH BANNER ══ */
         .featured-banner {
-            background: linear-gradient(160deg, var(--red-dark) 0%, #7a000f 100%);
+            background: linear-gradient(160deg, #252078 0%, #b01327 100%);
             padding: 50px 16px 20px;
             position: relative;
             overflow: hidden;
@@ -745,7 +745,7 @@
         }
 
         .card-tournament {
-            font-size: 9px;
+            font-size: 12px;
             font-weight: 600;
             color: var(--muted);
             letter-spacing: .3px;
@@ -992,12 +992,14 @@
         }
 
         .card-predict-btn {
-            flex: 1;
-            padding: 10px;
+            display: inline-flex;
+            width: auto;
+            margin: 0 auto;
+            padding: 10px 15px;
             background: linear-gradient(135deg, var(--red-dark), var(--red));
             color: #fff;
             border: none;
-            border-radius: 12px;
+            border-radius: 10px;
             font-family: 'Nunito', sans-serif;
             font-size: 12px;
             font-weight: 800;
@@ -1441,8 +1443,8 @@
         }
 
         .detail-hero-bg {
-            background: var(--red);
-            padding: 6px 18px 28px;
+            /*background: var(--red);*/
+            padding: 20px 15px 5px;
         }
 
         .detail-match-box {
@@ -2692,7 +2694,7 @@
             <div class="card-logo" style="background:${t1.bg}">${t1.emoji}</div>
             <div class="card-team-abbr">${m.t1}</div>
             <div class="card-team-full">${t1.short}</div>
-            ${score1}
+            
           </div>
           <div class="card-vs-block">
             <div class="card-vs-circle">VS</div>
@@ -2701,7 +2703,7 @@
             <div class="card-logo" style="background:${t2.bg}">${t2.emoji}</div>
             <div class="card-team-abbr">${m.t2}</div>
             <div class="card-team-full">${t2.short}</div>
-            ${score2}
+            
           </div>
         </div>
         ${centerBlock}
