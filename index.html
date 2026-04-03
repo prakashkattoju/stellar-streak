@@ -8,15 +8,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --red: #EC2A90;
-            --red-dark: #EC2A90;
+            --red: #D40F7D;
+            --red-dark: #D40F7D;
             --red-light: #fff0f2;
             --purple: #3A225D;
             --gold: #F7D54E;
             --white: #ffffff;
             --bg: #e3e3e3;
             --card: #ffffff;
-            --text: #1a0508;
+            --text: #3A225D;
             --sub: #5a2030;
             --muted: #9a6070;
             --border: #f0e6e8;
@@ -135,7 +135,7 @@
 
         .mob-menu-header {
             background: linear-gradient(135deg, var(--red-dark) 0%, var(--red) 100%);
-            padding: 52px 20px 24px;
+            padding: 18px 20px 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -177,7 +177,7 @@
             gap: 14px;
             padding: 16px 22px;
             font-family: 'Nunito', sans-serif;
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 700;
             color: var(--text);
             text-decoration: none;
@@ -239,7 +239,7 @@
         }
 
         .header-title small {
-            font-size: 10px;
+            font-size: 14px;
             font-weight: 600;
             opacity: 0.72;
             display: block;
@@ -279,7 +279,7 @@
         }
 
         .banner-tag {
-            font-size: 9px;
+            font-size: 14px;
             font-weight: 800;
             letter-spacing: 1.5px;
             background: var(--red);
@@ -298,7 +298,7 @@
         }
 
         .banner-sub {
-            font-size: 10px;
+            font-size: 14px;
             opacity: .75;
             margin-top: 2px;
         }
@@ -326,7 +326,7 @@
             border: 1px solid rgba(255, 255, 255, 0.25);
             border-radius: 20px;
             padding: 4px 12px;
-            font-size: 10px;
+            font-size: 14px;
             font-weight: 800;
             color: #fff;
             letter-spacing: 1.2px;
@@ -358,7 +358,7 @@
         }
 
         .feat-format {
-            font-size: 10px;
+            font-size: 14px;
             font-weight: 800;
             color: var(--red);
             letter-spacing: .8px;
@@ -369,7 +369,7 @@
         }
 
         .feat-match-no {
-            font-size: 10px;
+            font-size: 14px;
             font-weight: 700;
             color: var(--muted);
             letter-spacing: .5px;
@@ -411,7 +411,7 @@
         }
 
         .feat-team-full {
-            font-size: 9px;
+            font-size: 14px;
             color: var(--muted);
             text-align: center;
             line-height: 1.3;
@@ -433,7 +433,7 @@
             align-items: center;
             justify-content: center;
             font-family: 'Nunito', sans-serif;
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 900;
             color: var(--gold);
             flex-shrink: 0;
@@ -447,7 +447,7 @@
         }
 
         .feat-countdown-label {
-            font-size: 9px;
+            font-size: 14px;
             font-weight: 700;
             color: var(--muted);
             letter-spacing: 1px;
@@ -464,7 +464,7 @@
         }
 
         .feat-countdown-subs {
-            font-size: 9px;
+            font-size: 14px;
             color: var(--muted);
             display: flex;
             justify-content: center;
@@ -485,7 +485,7 @@
             color: #fff;
             border-radius: 20px;
             padding: 4px 12px;
-            font-size: 10px;
+            font-size: 14px;
             font-weight: 800;
             letter-spacing: .8px;
             margin-bottom: 8px;
@@ -504,7 +504,7 @@
         }
 
         .feat-overs {
-            font-size: 10px;
+            font-size: 14px;
             color: var(--muted);
             font-weight: 600;
             margin-top: 2px;
@@ -517,7 +517,7 @@
             background: linear-gradient(90deg, #fff8e1, #fffde7);
             border-radius: 12px;
             border: 1.5px solid #ffd54f;
-            font-size: 12px;
+            font-size: 14px;
             font-weight: 800;
             color: #7a5000;
         }
@@ -563,7 +563,7 @@
         .filter-item {
             flex-shrink: 0;
             padding: 12px 12px 10px;
-            font-size: 12px;
+            font-size: 14px;
             font-weight: 700;
             color: var(--muted);
             cursor: pointer;
@@ -695,13 +695,13 @@
         .cards-list {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 45px;
+            margin-bottom: 45px;
         }
 
         .match-card {
             background: var(--card);
             border-radius: 18px;
-            overflow: hidden;
             cursor: pointer;
             box-shadow: 0 2px 14px rgba(0, 0, 0, 0.07);
             transition: box-shadow .2s, transform .15s;
@@ -723,9 +723,8 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 9px 14px 7px;
+            padding: 10px 14px;
             border-bottom: 1px solid var(--border);
-            background: #fff;
         }
 
         .card-top-left {
@@ -735,7 +734,7 @@
         }
 
         .card-format {
-            font-size: 9px;
+            font-size: 14px;
             font-weight: 800;
             color: var(--red);
             background: var(--red-light);
@@ -745,7 +744,7 @@
         }
 
         .card-tournament {
-            font-size: 12px;
+            font-size: 14px;
             font-weight: 600;
             color: var(--muted);
             letter-spacing: .3px;
@@ -756,7 +755,7 @@
         }
 
         .card-status-badge {
-            font-size: 9px;
+            font-size: 14px;
             font-weight: 800;
             padding: 3px 9px;
             border-radius: 20px;
@@ -782,7 +781,8 @@
 
         /* Card body */
         .card-body {
-            padding: 12px 14px 10px;
+            position: relative;
+            padding: 12px 14px 25px;
         }
 
         .card-match-info {
@@ -793,7 +793,7 @@
         }
 
         .card-match-no {
-            font-size: 10px;
+            font-size: 14px;
             font-weight: 700;
             color: var(--red-dark);
             letter-spacing: .8px;
@@ -801,7 +801,7 @@
         }
 
         .card-datetime {
-            font-size: 10px;
+            font-size: 14px;
             font-weight: 600;
             color: var(--muted);
             display: flex;
@@ -845,7 +845,7 @@
         }
 
         .card-team-full {
-            font-size: 9px;
+            font-size: 14px;
             color: var(--muted);
             text-align: center;
             line-height: 1.3;
@@ -859,6 +859,7 @@
         }
 
         .card-vs-block {
+            position: relative;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -867,6 +868,7 @@
         }
 
         .card-vs-circle {
+            position: relative;
             width: 36px;
             height: 36px;
             border-radius: 50%;
@@ -875,10 +877,23 @@
             align-items: center;
             justify-content: center;
             font-family: 'Nunito', sans-serif;
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 900;
             color: var(--gold);
             box-shadow: 0 3px 10px rgba(45, 10, 78, 0.35);
+            z-index: 1;
+        }
+        .card-vs-block:after {
+            content: '';
+            position: absolute;
+            left: -12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 60px;
+            height: 2px;
+            background-color: #363636;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+            z-index: 0
         }
 
         /* Countdown */
@@ -892,7 +907,7 @@
         }
 
         .cd-label {
-            font-size: 9px;
+            font-size: 14px;
             font-weight: 700;
             color: var(--muted);
             letter-spacing: 1px;
@@ -936,7 +951,7 @@
             color: #fff;
             border-radius: 20px;
             padding: 4px 10px;
-            font-size: 9px;
+            font-size: 14px;
             font-weight: 800;
             letter-spacing: .8px;
             margin-bottom: 6px;
@@ -945,7 +960,7 @@
 
         .card-scores {
             font-family: 'Nunito', sans-serif;
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 800;
             color: var(--text);
             display: flex;
@@ -955,7 +970,7 @@
         }
 
         .card-overs {
-            font-size: 9px;
+            font-size: 14px;
             color: var(--muted);
             font-weight: 600;
             margin-top: 2px;
@@ -969,14 +984,14 @@
             background: linear-gradient(90deg, #fff8e1, #fffde7);
             border-radius: 10px;
             border: 1px solid #ffd54f;
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 800;
             color: #7a5000;
         }
 
         /* Venue */
         .card-venue {
-            font-size: 10px;
+            font-size: 14px;
             color: var(--muted);
             margin-bottom: 0;
             display: flex;
@@ -986,6 +1001,10 @@
 
         /* Predict button row */
         .card-actions {
+            position: absolute;
+            left: 50%;
+            bottom: -20px;
+            transform: translateX(-50%);
             display: flex;
             align-items: center;
             gap: 8px;
@@ -995,13 +1014,13 @@
             display: inline-flex;
             width: auto;
             margin: 0 auto;
-            padding: 10px 15px;
+            padding: 10px 25px;
             background: linear-gradient(135deg, var(--red-dark), var(--red));
             color: #fff;
             border: none;
             border-radius: 10px;
             font-family: 'Nunito', sans-serif;
-            font-size: 12px;
+            font-size: 16px;
             font-weight: 800;
             cursor: pointer;
             letter-spacing: .3px;
@@ -1020,7 +1039,7 @@
             gap: 6px;
             padding: 8px 12px;
             border-radius: 12px;
-            font-size: 12px;
+            font-size: 14px;
             font-weight: 800;
             flex: 1;
             justify-content: center;
@@ -1088,7 +1107,7 @@
         }
 
         .predict-modal-sub {
-            font-size: 11px;
+            font-size: 12px;
             color: var(--muted);
             text-align: center;
             margin-bottom: 18px;
@@ -1142,7 +1161,7 @@
         }
 
         .ptb-abbr {
-            font-size: 10px;
+            font-size: 14px;
             color: var(--muted);
         }
 
@@ -1157,7 +1176,7 @@
         }
 
         .ad-placeholder .ad-label {
-            font-size: 10px;
+            font-size: 14px;
             color: #999;
             font-weight: 700;
             letter-spacing: 1px;
@@ -1178,7 +1197,7 @@
             border: none;
             border-radius: 12px;
             font-family: 'Nunito', sans-serif;
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 800;
             cursor: pointer;
             box-shadow: 0 4px 16px rgba(232, 25, 44, 0.3);
@@ -1223,7 +1242,7 @@
             grid-template-columns: 2rem 1fr repeat(4, 2.2rem);
             padding: 10px 14px;
             background: var(--red);
-            font-size: 10px;
+            font-size: 14px;
             font-weight: 800;
             color: rgba(255, 255, 255, 0.85);
             letter-spacing: .8px;
@@ -1292,7 +1311,7 @@
         }
 
         .standings-footer-text {
-            font-size: 10px;
+            font-size: 14px;
             color: rgba(255, 255, 255, 0.5);
             font-weight: 600;
             display: flex;
@@ -1317,7 +1336,7 @@
         }
 
         .rank {
-            font-size: 12px;
+            font-size: 14px;
             font-weight: 800;
             color: var(--muted);
             text-align: center;
@@ -1347,7 +1366,7 @@
         }
 
         .stat-cell {
-            font-size: 12px;
+            font-size: 14px;
             font-weight: 600;
             color: var(--sub);
             text-align: center;
@@ -1376,7 +1395,7 @@
         }
 
         .view-all {
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 700;
             color: var(--red);
             cursor: pointer;
@@ -1437,7 +1456,7 @@
         }
 
         .detail-subtitle {
-            font-size: 11px;
+            font-size: 12px;
             color: rgba(255, 255, 255, 0.7);
             margin-top: 1px;
         }
@@ -1498,7 +1517,7 @@
 
         .detail-vs {
             font-family: 'Nunito', sans-serif;
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 800;
             width: 40px;
             height: 40px;
@@ -1516,7 +1535,7 @@
             background: linear-gradient(90deg, #fff8e1, #fffde7);
             border: 1.5px solid #ffd54f;
             border-radius: 14px;
-            font-size: 12px;
+            font-size: 14px;
             color: #7a5000;
             font-weight: 700;
             text-align: center;
@@ -1538,7 +1557,7 @@
         }
 
         .info-label {
-            font-size: 9px;
+            font-size: 14px;
             color: var(--muted);
             letter-spacing: 1.2px;
             text-transform: uppercase;
@@ -1547,7 +1566,7 @@
 
         .info-value {
             font-family: 'Nunito', sans-serif;
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 700;
             color: var(--text);
             margin-top: 3px;
@@ -1559,7 +1578,7 @@
         }
 
         .scorecard-title {
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 800;
             letter-spacing: 2px;
             text-transform: uppercase;
@@ -1592,7 +1611,7 @@
             padding: 8px 12px;
             background: var(--bg);
             border-bottom: 1px solid var(--border);
-            font-size: 9px;
+            font-size: 14px;
             color: var(--muted);
             letter-spacing: 1px;
             text-transform: uppercase;
@@ -1612,7 +1631,7 @@
         }
 
         .player-name {
-            font-size: 12px;
+            font-size: 14px;
             font-weight: 600;
             color: var(--text);
         }
@@ -1670,7 +1689,7 @@
         }
 
         .nav-label {
-            font-size: 9px;
+            font-size: 14px;
             font-weight: 700;
             letter-spacing: .3px;
             color: inherit;
@@ -2648,7 +2667,7 @@
           <div class="card-overs">Overs: ${m.overs}</div>
         </div>`;
                 } else if (m.status === 'completed') {
-                    centerBlock = `<div class="card-result">🏏 ${m.result}</div>`;
+                    centerBlock = `<div class="card-result">${m.result}</div>`;
                 }
 
                 // Prediction / action block
@@ -2664,7 +2683,7 @@
                     actionBlock = `
         <button class="card-predict-btn" onclick="event.stopPropagation();openPredictModal(${m.id})"
           ${m.status === 'completed' && !pred ? 'style="background:linear-gradient(135deg,#888,#aaa);box-shadow:none;"' : ''}>
-          ${m.status === 'completed' ? '📊 Match Ended' : '🎯 View Prediction'}
+          ${m.status === 'completed' ? 'Match Ended' : 'Prediction'}
         </button>`;
                 }
 
@@ -2686,8 +2705,8 @@
       <div class="card-body">
         <div class="card-match-info">
           <div class="card-match-no">${m.match}</div>
-          <div class="card-datetime">📅 ${m.date} &nbsp;⏰ ${m.time}</div>
-          <div class="card-venue">📍 ${m.venue}</div>
+          <div class="card-datetime">${m.date}  · ${m.time}</div>
+          <div class="card-venue">${m.venue}</div>
         </div>
         <div class="card-teams">
           <div class="card-team">
