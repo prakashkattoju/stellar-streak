@@ -201,7 +201,8 @@
 
         /* ══ HEADER ══ */
         .header {
-            background: linear-gradient(135deg, var(--red-dark) 0%, var(--red) 100%);
+            /*background: linear-gradient(135deg, var(--red-dark) 0%, var(--red) 100%);*/
+            background: var(--white);
             padding: 15px 18px 13px;
             display: flex;
             align-items: center;
@@ -216,7 +217,7 @@
             width: 38px;
             height: 38px;
             border-radius: 10px;
-            background: rgba(255, 255, 255, 0.18);
+            color: var(--red);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -226,22 +227,22 @@
         }
 
         .menu-trigger:active {
-            background: rgba(255, 255, 255, 0.32);
+            background: rgba(212, 15, 125, 0.18);
         }
 
         .header-title {
             font-family: 'Nunito', sans-serif;
-            font-size: 18px;
+            font-size: 24px;
             font-weight: 900;
-            color: #fff;
+            color: var(--red);
             text-align: center;
             letter-spacing: .3px;
         }
 
         .header-title small {
             font-size: 14px;
-            font-weight: 600;
-            opacity: 0.72;
+            font-weight: 700;
+            color: var(--purple);
             display: block;
             letter-spacing: .5px;
         }
@@ -250,7 +251,7 @@
             width: 38px;
             height: 38px;
             border-radius: 10px;
-            background: rgba(255, 255, 255, 0.18);
+            color: var(--red);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -259,7 +260,7 @@
         }
 
         .notif-btn:active {
-            background: rgba(255, 255, 255, 0.32);
+            background: rgba(212, 15, 125, 0.18);
         }
 
         .banner-slide {
@@ -1658,7 +1659,7 @@
             transform: translateX(-50%);
             width: 100%;
             max-width: 430px;
-            background: var(--red-dark);
+            background: var(--purple);
             border-top: 1px solid rgba(255, 255, 255, 0.08);
             display: flex;
             padding: 10px 0 12px;
@@ -1733,16 +1734,16 @@
         <!-- HEADER -->
         <div class="header">
             <div class="menu-trigger" onclick="openMenu()">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="2" stroke-linecap="round">
-                    <circle cx="5" cy="5" r="1.5" fill="rgba(255,255,255,0.9)" stroke="none" />
-                    <circle cx="12" cy="5" r="1.5" fill="rgba(255,255,255,0.9)" stroke="none" />
-                    <circle cx="19" cy="5" r="1.5" fill="rgba(255,255,255,0.9)" stroke="none" />
-                    <circle cx="5" cy="12" r="1.5" fill="rgba(255,255,255,0.9)" stroke="none" />
-                    <circle cx="12" cy="12" r="1.5" fill="rgba(255,255,255,0.9)" stroke="none" />
-                    <circle cx="19" cy="12" r="1.5" fill="rgba(255,255,255,0.9)" stroke="none" />
-                    <circle cx="5" cy="19" r="1.5" fill="rgba(255,255,255,0.9)" stroke="none" />
-                    <circle cx="12" cy="19" r="1.5" fill="rgba(255,255,255,0.9)" stroke="none" />
-                    <circle cx="19" cy="19" r="1.5" fill="rgba(255,255,255,0.9)" stroke="none" />
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(212,15,125,0.9)" stroke-width="2" stroke-linecap="round">
+                    <circle cx="5" cy="5" r="1.5" fill="rgba(212,15,125,0.9)" stroke="none" />
+                    <circle cx="12" cy="5" r="1.5" fill="rgba(212,15,125,0.9)" stroke="none" />
+                    <circle cx="19" cy="5" r="1.5" fill="rgba(212,15,125,0.9)" stroke="none" />
+                    <circle cx="5" cy="12" r="1.5" fill="rgba(212,15,125,0.9)" stroke="none" />
+                    <circle cx="12" cy="12" r="1.5" fill="rgba(212,15,125,0.9)" stroke="none" />
+                    <circle cx="19" cy="12" r="1.5" fill="rgba(212,15,125,0.9)" stroke="none" />
+                    <circle cx="5" cy="19" r="1.5" fill="rgba(212,15,125,0.9)" stroke="none" />
+                    <circle cx="12" cy="19" r="1.5" fill="rgba(212,15,125,0.9)" stroke="none" />
+                    <circle cx="19" cy="19" r="1.5" fill="rgba(212,15,125,0.9)" stroke="none" />
                 </svg>
             </div>
             <div class="header-title">
@@ -1750,7 +1751,7 @@
                 <small>IPL 2020 · Match Predictor</small>
             </div>
             <div class="notif-btn">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(212,15,125,0.9)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
                     <path d="M13.73 21a2 2 0 0 1-3.46 0" />
                 </svg>
