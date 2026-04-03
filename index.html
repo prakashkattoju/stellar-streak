@@ -14,7 +14,7 @@
             --purple: #3A225D;
             --gold: #F7D54E;
             --white: #ffffff;
-            --bg: #e3e3e3;
+            --bg: #edf2f4;
             --card: #ffffff;
             --text: #3A225D;
             --sub: #5a2030;
@@ -121,7 +121,7 @@
             width: 80%;
             max-width: 290px;
             background: #fff;
-            box-shadow: 6px 0 40px rgba(232, 25, 44, 0.2);
+            /*box-shadow: 6px 0 40px rgba(232, 25, 44, 0.2);*/
             transform: translateX(-100%);
             transition: transform .32s cubic-bezier(.4, 0, .2, 1);
             display: flex;
@@ -859,12 +859,23 @@
         }
 
         .card-vs-block {
-            position: relative;
             display: flex;
-            flex-direction: column;
             align-items: center;
-            gap: 6px;
-            flex-shrink: 0;
+            justify-content: center;
+            width: 95px;
+        }
+
+        .card-vs-block .line {
+            flex: 1;
+            height: 4px;
+        }
+
+        .card-vs-block .line.left {
+            background: linear-gradient(to right, transparent, var(--purple));
+        }
+
+        .card-vs-block .line.right {
+            background: linear-gradient(to right, var(--purple), transparent);
         }
 
         .card-vs-circle {
@@ -882,18 +893,6 @@
             color: var(--gold);
             box-shadow: 0 3px 10px rgba(45, 10, 78, 0.35);
             z-index: 1;
-        }
-        .card-vs-block:after {
-            content: '';
-            position: absolute;
-            left: -12px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 60px;
-            height: 2px;
-            background-color: #363636;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
-            z-index: 0
         }
 
         /* Countdown */
@@ -2716,7 +2715,9 @@
             
           </div>
           <div class="card-vs-block">
+            <span class="line left"></span>
             <div class="card-vs-circle">VS</div>
+            <span class="line right"></span>
           </div>
           <div class="card-team">
             <div class="card-logo" style="background:${t2.bg}">${t2.emoji}</div>
