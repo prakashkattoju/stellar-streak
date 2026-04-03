@@ -966,7 +966,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 45px;
         }
 
         .card-overs {
@@ -1697,6 +1697,41 @@
             opacity: 0.9;
         }
 
+        /* Prediction reveal box */
+        .predict-reveal-box {
+            text-align: center;
+            background: linear-gradient(135deg, var(--red-light), #fff0f8);
+            border: 2px solid var(--red);
+            border-radius: 16px;
+            padding: 18px 12px 14px;
+            margin-bottom: 16px;
+        }
+        .predict-reveal-label {
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: var(--muted);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+        .predict-reveal-pick {
+            font-family: 'Nunito', sans-serif;
+            font-size: 26px;
+            font-weight: 900;
+            color: var(--red);
+            margin-bottom: 4px;
+        }
+        .predict-reveal-sub {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--sub);
+        }
+        /* Make team buttons non-interactive in read-only modal */
+        #predictTeams .predict-team-btn {
+            cursor: default;
+            pointer-events: none;
+        }
+
         /* ══ MOBILE MENU ══ */
 
     </style>
@@ -1903,15 +1938,15 @@
     <!-- PREDICT MODAL -->
     <div class="predict-overlay" id="predictOverlay">
         <div class="predict-modal">
-            <div class="predict-modal-title" id="predictTitle">Who will win?</div>
-            <div class="predict-modal-sub" id="predictSub">Make your prediction for this match</div>
+            <div class="predict-modal-title" id="predictTitle">Match Prediction</div>
+            <div class="predict-modal-sub" id="predictSub"></div>
             <div class="predict-teams" id="predictTeams"></div>
+            <div id="predictReveal"></div>
             <div class="ad-placeholder">
                 <div class="ad-label">ADVERTISEMENT</div>
                 <div class="ad-text">🎯 Your ad here — sponsor the prediction!</div>
             </div>
-            <button class="predict-submit-btn" id="predictSubmitBtn" disabled onclick="submitPrediction()">Reveal My Prediction</button>
-            <button class="predict-cancel-btn" onclick="closePredictModal()">Cancel</button>
+            <button class="predict-cancel-btn" onclick="closePredictModal()">Close</button>
         </div>
     </div>
 
@@ -2005,9 +2040,7 @@
             },
         };
 
-        // status: 'upcoming' | 'live' | 'completed'
-        // prediction: null | { pick: 'MI', correct: true/false }
-        // tossTarget = ISO datetime string for toss (upcoming matches)
+// adminPrediction fields added per match below
         const MATCHES = [{
                 id: 1,
                 match: 'Match 1',
@@ -2024,7 +2057,7 @@
                 toss: 'MI (bat)',
                 overs: '18.2',
                 winner: 'MI',
-                prediction: null,
+                adminPrediction: { pick: 'MI', label: 'MI to Win' },
                 batting1: [{
                     n: 'Rohit Sharma',
                     s: '68',
@@ -2068,7 +2101,7 @@
                 toss: '',
                 overs: '',
                 winner: '',
-                prediction: null,
+                adminPrediction: { pick: 'SRH', label: 'SRH to Win Toss' },
                 tossTarget: '2024-09-21T14:00:00',
                 batting1: [{
                     n: 'Devdutt Padikkal',
@@ -2113,7 +2146,7 @@
                 toss: '',
                 overs: '',
                 winner: '',
-                prediction: null,
+                adminPrediction: { pick: 'MI', label: 'MI to Win Toss' },
                 tossTarget: '2024-09-23T14:00:00',
                 batting1: [{
                     n: 'Quinton de Kock',
@@ -2158,7 +2191,7 @@
                 toss: 'DC (bat)',
                 overs: '20',
                 winner: 'DC',
-                prediction: null,
+                adminPrediction: { pick: 'DC', label: 'DC to Win' },
                 batting1: [{
                     n: 'Shikhar Dhawan',
                     s: '57',
@@ -2202,7 +2235,7 @@
                 toss: 'CSK (bat)',
                 overs: '20',
                 winner: 'RR',
-                prediction: null,
+                adminPrediction: { pick: 'CSK', label: 'CSK to Win' },
                 batting1: [{
                     n: 'Sanju Samson',
                     s: '74',
@@ -2246,7 +2279,7 @@
                 toss: 'SRH (bat)',
                 overs: '20',
                 winner: 'SRH',
-                prediction: null,
+                adminPrediction: { pick: 'SRH', label: 'SRH to Win' },
                 batting1: [{
                     n: 'David Warner',
                     s: '66',
@@ -2290,7 +2323,7 @@
                 toss: 'MI (bat)',
                 overs: '20',
                 winner: 'MI',
-                prediction: null,
+                adminPrediction: { pick: 'RCB', label: 'RCB to Win' },
                 batting1: [{
                     n: 'Ishan Kishan',
                     s: '99',
@@ -2334,7 +2367,7 @@
                 toss: 'KKR (bat)',
                 overs: '20',
                 winner: 'KKR',
-                prediction: null,
+                adminPrediction: { pick: 'KKR', label: 'KKR to Win' },
                 batting1: [{
                     n: 'Shubman Gill',
                     s: '70',
@@ -2378,7 +2411,7 @@
                 toss: 'MI (bowl)',
                 overs: '20',
                 winner: 'MI',
-                prediction: null,
+                adminPrediction: { pick: 'MI', label: 'MI to Win' },
                 batting1: [{
                     n: 'MS Dhoni',
                     s: '24',
@@ -2422,7 +2455,7 @@
                 toss: 'RCB (bat)',
                 overs: '20',
                 winner: 'KXIP',
-                prediction: null,
+                adminPrediction: { pick: 'RCB', label: 'RCB to Win' },
                 batting1: [{
                     n: 'KL Rahul',
                     s: '61',
@@ -2466,7 +2499,7 @@
                 toss: 'MI (bat)',
                 overs: '20',
                 winner: 'MI',
-                prediction: null,
+                adminPrediction: { pick: 'MI', label: 'MI to Win' },
                 batting1: [{
                     n: 'Rohit Sharma',
                     s: '75',
@@ -2510,7 +2543,7 @@
                 toss: 'DC (bat)',
                 overs: '20',
                 winner: 'MI',
-                prediction: null,
+                adminPrediction: { pick: 'MI', label: 'MI to Win' },
                 batting1: [{
                     n: 'Rohit Sharma',
                     s: '68',
@@ -2541,11 +2574,9 @@
         ];
 
         /* ══════════════════════════════
-           PREDICTION STATE (in-memory)
+           PREDICTION MODAL STATE
         ══════════════════════════════ */
-        const predictions = {}; // { matchId: { pick: 'MI', shown: false } }
         let currentPredictId = null;
-        let currentPredictPick = null;
 
         /* ══════════════════════════════
            COUNTDOWN HELPERS
@@ -2638,7 +2669,6 @@
             data.forEach((m, i) => {
                 const t1 = TEAMS[m.t1],
                     t2 = TEAMS[m.t2];
-                const pred = predictions[m.id];
 
                 // Status badge
                 let statusBadge = '';
@@ -2661,28 +2691,32 @@
                 } else if (m.status === 'live') {
                     centerBlock = `
         <div class="card-live-block">
-          <div class="card-scores">${m.s1} <span style="font-size:11px;color:var(--muted)">vs</span> ${m.s2}</div>
-          <div class="card-overs">Overs: ${m.overs}</div>
+          <div class="card-scores">${m.s1} <span class="card-overs">Overs: ${m.overs}</span> ${m.s2}</div>
         </div>`;
                 } else if (m.status === 'completed') {
                     centerBlock = `<div class="card-result">${m.result}</div>`;
                 }
 
-                // Prediction / action block
+                // Action block
                 let actionBlock = '';
-                if (pred) {
-                    const isCorrect = pred.pick === m.winner;
-                    actionBlock = `
-        <div class="card-outcome ${isCorrect ? 'correct' : 'incorrect'}">
-          <span class="card-outcome-icon">${isCorrect ? '✅' : '❌'}</span>
-          <span>You picked <b>${pred.pick}</b> — ${isCorrect ? 'Correct!' : 'Wrong!'}</span>
+                if (m.status === 'completed') {
+                    // Show correct / wrong badge — no button
+                    if (m.adminPrediction) {
+                        const correct = m.adminPrediction.pick === m.winner;
+                        actionBlock = `
+        <div class="card-outcome ${correct ? 'correct' : 'incorrect'}">
+          <span class="card-outcome-icon">${correct ? '✅' : '❌'}</span>
+          <span>${correct ? 'Prediction Correct!' : 'Prediction Wrong!'}</span>
         </div>`;
+                    }
                 } else {
-                    actionBlock = `
-        <button class="card-predict-btn" onclick="event.stopPropagation();openPredictModal(${m.id})"
-          ${m.status === 'completed' && !pred ? 'style="background:linear-gradient(135deg,#888,#aaa);box-shadow:none;"' : ''}>
-          ${m.status === 'completed' ? 'Match Ended' : 'Prediction'}
+                    // Upcoming & Live: show Prediction button (only if admin has set one)
+                    if (m.adminPrediction) {
+                        actionBlock = `
+        <button class="card-predict-btn" onclick="event.stopPropagation();openPredictModal(${m.id})">
+          🔮 Prediction
         </button>`;
+                    }
                 }
 
                 // Score in logo row (for completed/live)
@@ -2766,70 +2800,42 @@
         ══════════════════════════════ */
         function openPredictModal(id) {
             const m = MATCHES.find(x => x.id === id);
-            if (!m) return;
+            if (!m || !m.adminPrediction) return;
             currentPredictId = id;
-            currentPredictPick = null;
+            const t1 = TEAMS[m.t1], t2 = TEAMS[m.t2];
+            const pick = m.adminPrediction.pick;
+            const pickTeam = TEAMS[pick];
 
-            const t1 = TEAMS[m.t1],
-                t2 = TEAMS[m.t2];
-            document.getElementById('predictTitle').textContent = `Who will win?`;
-            document.getElementById('predictSub').textContent = `${m.t1} vs ${m.t2} · ${m.match} · ${m.date}`;
-            document.getElementById('predictSubmitBtn').disabled = true;
-
-            const existing = predictions[id];
+            document.getElementById('predictTitle').textContent = m.status === 'upcoming'
+                ? '🪙 Toss Prediction' : '🏏 Match Prediction';
+            document.getElementById('predictSub').textContent =
+                `${m.t1} vs ${m.t2} · ${m.match} · ${m.date}`;
 
             document.getElementById('predictTeams').innerHTML = `
-    <div class="predict-team-btn ${existing?.pick===m.t1?'selected':''}" onclick="selectPick('${m.t1}')">
+    <div class="predict-team-btn ${pick===m.t1?'selected':''}">
       <div class="ptb-logo">${t1.emoji}</div>
       <div class="ptb-name">${m.t1}</div>
       <div class="ptb-abbr">${t1.short}</div>
     </div>
-    <div class="predict-team-btn ${existing?.pick===m.t2?'selected':''}" onclick="selectPick('${m.t2}')">
+    <div class="predict-team-btn ${pick===m.t2?'selected':''}">
       <div class="ptb-logo">${t2.emoji}</div>
       <div class="ptb-name">${m.t2}</div>
       <div class="ptb-abbr">${t2.short}</div>
     </div>`;
 
-            if (existing) {
-                currentPredictPick = existing.pick;
-                document.getElementById('predictSubmitBtn').disabled = false;
-                document.getElementById('predictSubmitBtn').textContent = 'Update Prediction';
-            } else {
-                document.getElementById('predictSubmitBtn').textContent = 'Reveal My Prediction';
-            }
+            document.getElementById('predictReveal').innerHTML = `
+    <div class="predict-reveal-box">
+      <div class="predict-reveal-label">Our Prediction</div>
+      <div class="predict-reveal-pick">${pickTeam.emoji} ${pick}</div>
+      <div class="predict-reveal-sub">${m.adminPrediction.label}</div>
+    </div>`;
 
             document.getElementById('predictOverlay').classList.add('open');
-        }
-
-        function selectPick(team) {
-            currentPredictPick = team;
-            document.querySelectorAll('.predict-team-btn').forEach(btn => {
-                btn.classList.toggle('selected', btn.querySelector('.ptb-name').textContent === team);
-            });
-            document.getElementById('predictSubmitBtn').disabled = false;
-        }
-
-        function submitPrediction() {
-            if (!currentPredictPick || !currentPredictId) return;
-            predictions[currentPredictId] = {
-                pick: currentPredictPick
-            };
-            closePredictModal();
-            // Re-render cards & featured
-            const activeFilter = document.querySelector('.filter-item.active');
-            if (activeFilter) {
-                const key = activeFilter.textContent.trim().toLowerCase();
-                filterCards(key === 'all' ? 'all' : key === 'live' ? 'live' : key === 'upcoming' ? 'upcoming' : 'completed', activeFilter);
-            } else {
-                renderCards(MATCHES);
-            }
-            renderFeatured();
         }
 
         function closePredictModal() {
             document.getElementById('predictOverlay').classList.remove('open');
             currentPredictId = null;
-            currentPredictPick = null;
         }
 
         /* ══════════════════════════════
