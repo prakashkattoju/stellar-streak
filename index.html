@@ -992,6 +992,7 @@
         /* Venue */
         .card-venue {
             font-size: 14px;
+            font-weight: 600;
             color: var(--muted);
             margin-bottom: 0;
             display: flex;
@@ -2643,7 +2644,7 @@
                 let statusBadge = '';
                 if (m.status === 'live') statusBadge = `<span class="card-status-badge badge-live">🔴 LIVE</span>`;
                 else if (m.status === 'upcoming') statusBadge = `<span class="card-status-badge badge-upcoming">Upcoming</span>`;
-                else statusBadge = `<span class="card-status-badge badge-completed">Result</span>`;
+                else statusBadge = `<span class="card-status-badge badge-completed">Completed</span>`;
 
                 // Center block: countdown / live scores / result
                 let centerBlock = '';
@@ -2660,9 +2661,6 @@
                 } else if (m.status === 'live') {
                     centerBlock = `
         <div class="card-live-block">
-          <div class="card-live-tag">
-            <span style="width:5px;height:5px;background:#fff;border-radius:50%;display:inline-block;"></span> LIVE
-          </div>
           <div class="card-scores">${m.s1} <span style="font-size:11px;color:var(--muted)">vs</span> ${m.s2}</div>
           <div class="card-overs">Overs: ${m.overs}</div>
         </div>`;
@@ -2704,7 +2702,6 @@
       </div>
       <div class="card-body">
         <div class="card-match-info">
-          <div class="card-match-no">${m.match}</div>
           <div class="card-datetime">${m.date}  · ${m.time}</div>
           <div class="card-venue">${m.venue}</div>
         </div>
@@ -2715,11 +2712,7 @@
             <div class="card-team-full">${t1.short}</div>
             
           </div>
-          <div class="card-vs-block">
-            <span class="line left"></span>
-            <div class="card-vs-circle">VS</div>
-            <span class="line right"></span>
-          </div>
+          <div class="card-match-no">${m.match}</div>
           <div class="card-team">
             <div class="card-logo" style="background:${t2.bg}">${t2.emoji}</div>
             <div class="card-team-abbr">${m.t2}</div>
