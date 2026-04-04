@@ -4,11 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <title>Stellar Streak</title>
+    <title>Cric Astro</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --red: #D40F7D;
+            --red: #f32f9c;
             --red-dark: #D40F7D;
             --red-light: #fff0f2;
             --purple: #3A225D;
@@ -689,14 +689,14 @@
 
         /* ══ MAIN CONTENT ══ */
         .main-content {
-            padding: 14px 12px 100px;
+            padding: 14px 12px 75px;
         }
 
         /* ══ MATCH CARDS — full width vertical scroll ══ */
         .cards-list {
             display: flex;
             flex-direction: column;
-            gap: 55px;
+            gap: 45px;
             margin-bottom: 45px;
         }
 
@@ -746,7 +746,7 @@
 
         .card-tournament {
             font-size: 14px;
-            font-weight: 600;
+            font-weight: 800;
             color: var(--muted);
             letter-spacing: .3px;
             white-space: nowrap;
@@ -795,15 +795,14 @@
 
         .card-match-no {
             font-size: 14px;
-            font-weight: 700;
+            font-weight: 800;
             color: var(--red-dark);
             letter-spacing: .8px;
-            text-transform: uppercase;
         }
 
         .card-datetime {
             font-size: 14px;
-            font-weight: 600;
+            font-weight: 800;
             color: var(--muted);
             display: flex;
             align-items: center;
@@ -979,7 +978,7 @@
         /* Result row */
         .card-result {
             text-align: center;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             font-size: 15px;
             font-weight: 700;
             color: var(--muted);
@@ -988,7 +987,7 @@
         /* Venue */
         .card-venue {
             font-size: 14px;
-            font-weight: 600;
+            font-weight: 800;
             color: var(--muted);
             margin-bottom: 0;
             display: flex;
@@ -998,10 +997,10 @@
 
         /* Predict button row */
         .card-actions {
-            width: 240px;
+            width: 100%;
             position: absolute;
             left: 50%;
-            bottom: -30px;
+            bottom: -20px;
             transform: translateX(-50%);
             display: flex;
             align-items: center;
@@ -1013,8 +1012,9 @@
             align-items: center;
             justify-content: center;
             width: 100%;
+            max-width: 132px;
             margin: 0 auto;
-            padding: 15px 25px;
+            padding: 12px 25px;
             background: linear-gradient(135deg, var(--red-dark), var(--red));
             color: #fff;
             border: none;
@@ -1036,8 +1036,12 @@
         .card-outcome {
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 6px;
-            padding: 15px 25px;
+            width: 100%;
+            max-width: 132px;
+            margin: 0 auto;
+            padding: 12px 25px;
             color: #fff;
             border: none;
             border-radius: 8px;
@@ -1049,11 +1053,11 @@
         }
 
         .card-outcome.correct {
-            background: #3FA37C;
+            background: linear-gradient(135deg, #1A7A4A, #4ECCA3);
         }
 
         .card-outcome.incorrect {
-            background: #C0564D;
+            background: linear-gradient(135deg, #C0392B, #FF6B6B);
         }
 
         .card-outcome-icon {
@@ -1658,10 +1662,10 @@
             transform: translateX(-50%);
             width: 100%;
             max-width: 430px;
-            background: var(--purple);
+            background: var(--white);
             border-top: 1px solid rgba(255, 255, 255, 0.08);
             display: flex;
-            padding: 10px 0 12px;
+            padding: 10px 0 8px;
             z-index: 50;
             box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
         }
@@ -1671,24 +1675,30 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 4px;
+            gap: 0;
             cursor: pointer;
             transition: color .2s;
-            color: rgba(255, 255, 255, 0.35);
+            color: var(--red);
         }
 
         .nav-item.active {
-            color: rgba(255, 255, 255, 0.95);
+            color: var(--red-dark)
         }
 
         .nav-icon {
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 8px;
+            border-radius: 50%;
+        }
+        
+        .nav-item.active .nav-icon{
+            background: var(--red-light)
         }
 
         .nav-label {
-            font-size: 14px;
+            font-size: 12px;
             font-weight: 700;
             letter-spacing: .3px;
             color: inherit;
@@ -1704,6 +1714,7 @@
             padding: 18px 12px 14px;
             margin-bottom: 16px;
         }
+
         .predict-reveal-label {
             font-size: 11px;
             font-weight: 800;
@@ -1712,6 +1723,7 @@
             text-transform: uppercase;
             margin-bottom: 8px;
         }
+
         .predict-reveal-pick {
             font-family: 'Nunito', sans-serif;
             font-size: 26px;
@@ -1719,11 +1731,13 @@
             color: var(--red);
             margin-bottom: 4px;
         }
+
         .predict-reveal-sub {
             font-size: 13px;
             font-weight: 700;
             color: var(--sub);
         }
+
         /* Make team buttons non-interactive in read-only modal */
         #predictTeams .predict-team-btn {
             cursor: default;
@@ -1741,7 +1755,7 @@
     <div class="mob-overlay" id="mobOverlay" onclick="closeMenu()"></div>
     <div class="mob-menu" id="mobMenu">
         <div class="mob-menu-header">
-            <div class="mob-menu-logo">⭐ Stellar Streak</div>
+            <div class="mob-menu-logo">Cric Astro</div>
             <div class="mob-close-btn" onclick="closeMenu()">✕</div>
         </div>
         <nav class="mob-nav-links">
@@ -1768,7 +1782,7 @@
         <!-- HEADER -->
         <div class="header">
             <div class="menu-trigger" onclick="openMenu()">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(212,15,125,0.9)" stroke-width="2" stroke-linecap="round">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(212,15,125,0.9)" stroke-width="3" stroke-linecap="round">
                     <circle cx="5" cy="5" r="1.5" fill="rgba(212,15,125,0.9)" stroke="none" />
                     <circle cx="12" cy="5" r="1.5" fill="rgba(212,15,125,0.9)" stroke="none" />
                     <circle cx="19" cy="5" r="1.5" fill="rgba(212,15,125,0.9)" stroke="none" />
@@ -1781,11 +1795,11 @@
                 </svg>
             </div>
             <div class="header-title">
-                Stellar Streak
+                Cric Astro
                 <small>IPL 2020 · Match Predictor</small>
             </div>
             <div class="notif-btn">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(212,15,125,0.9)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(212,15,125,0.9)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
                     <path d="M13.73 21a2 2 0 0 1-3.46 0" />
                 </svg>
@@ -2038,7 +2052,7 @@
             },
         };
 
-// adminPrediction fields added per match below
+        // adminPrediction fields added per match below
         const MATCHES = [{
                 id: 1,
                 match: 'Match 1',
@@ -2055,7 +2069,10 @@
                 toss: 'MI (bat)',
                 overs: '18.2',
                 winner: 'MI',
-                adminPrediction: { pick: 'MI', label: 'MI to Win' },
+                adminPrediction: {
+                    pick: 'MI',
+                    label: 'MI to Win'
+                },
                 batting1: [{
                     n: 'Rohit Sharma',
                     s: '68',
@@ -2099,7 +2116,10 @@
                 toss: '',
                 overs: '',
                 winner: '',
-                adminPrediction: { pick: 'SRH', label: 'SRH to Win Toss' },
+                adminPrediction: {
+                    pick: 'SRH',
+                    label: 'SRH to Win Toss'
+                },
                 tossTarget: '2024-09-21T14:00:00',
                 batting1: [{
                     n: 'Devdutt Padikkal',
@@ -2144,7 +2164,10 @@
                 toss: '',
                 overs: '',
                 winner: '',
-                adminPrediction: { pick: 'MI', label: 'MI to Win Toss' },
+                adminPrediction: {
+                    pick: 'MI',
+                    label: 'MI to Win Toss'
+                },
                 tossTarget: '2024-09-23T14:00:00',
                 batting1: [{
                     n: 'Quinton de Kock',
@@ -2189,7 +2212,10 @@
                 toss: 'DC (bat)',
                 overs: '20',
                 winner: 'DC',
-                adminPrediction: { pick: 'DC', label: 'DC to Win' },
+                adminPrediction: {
+                    pick: 'DC',
+                    label: 'DC to Win'
+                },
                 batting1: [{
                     n: 'Shikhar Dhawan',
                     s: '57',
@@ -2233,7 +2259,10 @@
                 toss: 'CSK (bat)',
                 overs: '20',
                 winner: 'RR',
-                adminPrediction: { pick: 'CSK', label: 'CSK to Win' },
+                adminPrediction: {
+                    pick: 'CSK',
+                    label: 'CSK to Win'
+                },
                 batting1: [{
                     n: 'Sanju Samson',
                     s: '74',
@@ -2277,7 +2306,10 @@
                 toss: 'SRH (bat)',
                 overs: '20',
                 winner: 'SRH',
-                adminPrediction: { pick: 'SRH', label: 'SRH to Win' },
+                adminPrediction: {
+                    pick: 'SRH',
+                    label: 'SRH to Win'
+                },
                 batting1: [{
                     n: 'David Warner',
                     s: '66',
@@ -2321,7 +2353,10 @@
                 toss: 'MI (bat)',
                 overs: '20',
                 winner: 'MI',
-                adminPrediction: { pick: 'RCB', label: 'RCB to Win' },
+                adminPrediction: {
+                    pick: 'RCB',
+                    label: 'RCB to Win'
+                },
                 batting1: [{
                     n: 'Ishan Kishan',
                     s: '99',
@@ -2365,7 +2400,10 @@
                 toss: 'KKR (bat)',
                 overs: '20',
                 winner: 'KKR',
-                adminPrediction: { pick: 'KKR', label: 'KKR to Win' },
+                adminPrediction: {
+                    pick: 'KKR',
+                    label: 'KKR to Win'
+                },
                 batting1: [{
                     n: 'Shubman Gill',
                     s: '70',
@@ -2409,7 +2447,10 @@
                 toss: 'MI (bowl)',
                 overs: '20',
                 winner: 'MI',
-                adminPrediction: { pick: 'MI', label: 'MI to Win' },
+                adminPrediction: {
+                    pick: 'MI',
+                    label: 'MI to Win'
+                },
                 batting1: [{
                     n: 'MS Dhoni',
                     s: '24',
@@ -2453,7 +2494,10 @@
                 toss: 'RCB (bat)',
                 overs: '20',
                 winner: 'KXIP',
-                adminPrediction: { pick: 'RCB', label: 'RCB to Win' },
+                adminPrediction: {
+                    pick: 'RCB',
+                    label: 'RCB to Win'
+                },
                 batting1: [{
                     n: 'KL Rahul',
                     s: '61',
@@ -2497,7 +2541,10 @@
                 toss: 'MI (bat)',
                 overs: '20',
                 winner: 'MI',
-                adminPrediction: { pick: 'MI', label: 'MI to Win' },
+                adminPrediction: {
+                    pick: 'MI',
+                    label: 'MI to Win'
+                },
                 batting1: [{
                     n: 'Rohit Sharma',
                     s: '75',
@@ -2541,7 +2588,10 @@
                 toss: 'DC (bat)',
                 overs: '20',
                 winner: 'MI',
-                adminPrediction: { pick: 'MI', label: 'MI to Win' },
+                adminPrediction: {
+                    pick: 'MI',
+                    label: 'MI to Win'
+                },
                 batting1: [{
                     n: 'Rohit Sharma',
                     s: '68',
@@ -2703,8 +2753,7 @@
                         const correct = m.adminPrediction.pick === m.winner;
                         actionBlock = `
         <div class="card-outcome ${correct ? 'correct' : 'incorrect'}">
-          <span class="card-outcome-icon">${correct ? '✅' : '❌'}</span>
-          <span>${correct ? 'Prediction Correct!' : 'Prediction Wrong!'}</span>
+          <span>${correct ? 'Correct' : 'Incorrect'}</span>
         </div>`;
                     }
                 } else {
@@ -2800,12 +2849,13 @@
             const m = MATCHES.find(x => x.id === id);
             if (!m || !m.adminPrediction) return;
             currentPredictId = id;
-            const t1 = TEAMS[m.t1], t2 = TEAMS[m.t2];
+            const t1 = TEAMS[m.t1],
+                t2 = TEAMS[m.t2];
             const pick = m.adminPrediction.pick;
             const pickTeam = TEAMS[pick];
 
-            document.getElementById('predictTitle').textContent = m.status === 'upcoming'
-                ? '🪙 Toss Prediction' : '🏏 Match Prediction';
+            document.getElementById('predictTitle').textContent = m.status === 'upcoming' ?
+                '🪙 Toss Prediction' : '🏏 Match Prediction';
             document.getElementById('predictSub').textContent =
                 `${m.t1} vs ${m.t2} · ${m.match} · ${m.date}`;
 
