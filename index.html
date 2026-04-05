@@ -234,9 +234,9 @@
 
         .header-title {
             font-family: 'Nunito', sans-serif;
-            font-size: 24px;
+            font-size: 32px;
             font-weight: 900;
-            color: var(--red);
+            color: var(--purple);
             text-align: center;
             letter-spacing: .3px;
         }
@@ -749,7 +749,7 @@
         .card-tournament {
             font-size: 14px;
             font-weight: 800;
-            color: var(--muted);
+            color: var(--purple);
             letter-spacing: .3px;
             white-space: nowrap;
             overflow: hidden;
@@ -1680,11 +1680,13 @@
             gap: 0;
             cursor: pointer;
             transition: color .2s;
-            color: var(--red);
+            color: var(--purple);
+            opacity: 0.8
         }
 
         .nav-item.active {
-            color: var(--red-dark)
+            color: var(--red-dark);
+            opacity: 1
         }
 
         .nav-icon {
@@ -1701,10 +1703,9 @@
 
         .nav-label {
             font-size: 12px;
-            font-weight: 700;
-            letter-spacing: .3px;
+            font-weight: 800;
+            letter-spacing: .8px;
             color: inherit;
-            opacity: 0.9;
         }
 
         /* Prediction reveal box */
@@ -1798,7 +1799,7 @@
             </div>
             <div class="header-title">
                 Cric Astro
-                <small>IPL 2020 · Match Predictor</small>
+                <!--<small>IPL 2020 · Match Predictor</small>-->
             </div>
             <div class="notif-btn">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(41,63,146,0.9)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
